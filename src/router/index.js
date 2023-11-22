@@ -13,6 +13,10 @@ import Users from '../views/accountant/Users'
 import Logs from '../views/admin/Logs'
 import RequestItem from '../views/accountant/RequestItem'
 import Accountants from '../views/admin/Accountants'
+import AccountantPersonalInfo from '../views/accountant/PersonalInfo'
+import AccountantChangePassword from '../views/accountant/ChangePassword'
+import WorkerPersonalInfo from '../views/worker/PersonalInfo'
+import WorkerChangePassword from '../views/worker/ChangePassword'
 
 const routes = [
   {
@@ -139,7 +143,27 @@ const routes = [
     path: '/accountant/request/item/:id',
     name: 'Item',
     component: RequestItem
-  }
+  },
+  {
+    path: '/accountant/personalInfo',
+    //name: 'Item',
+    component: AccountantPersonalInfo
+  },
+  {
+    path: '/accountant/changePassword',
+    //name: 'Item',
+    component: AccountantChangePassword
+  },
+  {
+    path: '/worker/personalInfo',
+    //name: 'Item',
+    component: WorkerPersonalInfo
+  },
+  {
+    path: '/worker/changePassword',
+    //name: 'Item',
+    component: WorkerChangePassword
+  },
 ]
 
 const router = createRouter({
