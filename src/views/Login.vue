@@ -77,9 +77,9 @@ export default {
         'http://localhost:8400/auth/authenticate',
         formData,
         {
-          withCredentials: true,
+          // withCredentials: true,
           headers: {
-            'Accept': 'application/json',
+            // 'Accept': 'application/json',
             'Content-Type': 'application/json' //'application/x-www-form-urlencoded'
           },
         }, 

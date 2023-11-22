@@ -4759,8 +4759,8 @@ var widgetsAccordion = $.widget( "ui.accordion", {
 			options = this.options,
 			active = this.active,
 			clicked = $( event.currentTarget ),
-			clickedIsActive = clicked[ 0 ] === active[ 0 ],
-			collapsing = clickedIsActive && options.collapsible,
+			clickedactive = clicked[ 0 ] === active[ 0 ],
+			collapsing = clickedactive && options.collapsible,
 			toShow = collapsing ? $() : clicked.next(),
 			toHide = active.next(),
 			eventData = {
@@ -4775,7 +4775,7 @@ var widgetsAccordion = $.widget( "ui.accordion", {
 		if (
 
 				// click on active header, but not collapsible
-				( clickedIsActive && !options.collapsible ) ||
+				( clickedactive && !options.collapsible ) ||
 
 				// allow canceling activation
 				( this._trigger( "beforeActivate", event, eventData ) === false ) ) {
@@ -4786,7 +4786,7 @@ var widgetsAccordion = $.widget( "ui.accordion", {
 
 		// When the call to ._toggle() comes after the class changes
 		// it causes a very odd bug in IE 8 (see #6720)
-		this.active = clickedIsActive ? $() : clicked;
+		this.active = clickedactive ? $() : clicked;
 		this._toggle( eventData );
 
 		// Switch classes
@@ -4798,7 +4798,7 @@ var widgetsAccordion = $.widget( "ui.accordion", {
 				._addClass( activeChildren, null, options.icons.header );
 		}
 
-		if ( !clickedIsActive ) {
+		if ( !clickedactive ) {
 			this._removeClass( clicked, "ui-accordion-header-collapsed" )
 				._addClass( clicked, "ui-accordion-header-active", "ui-state-active" );
 			if ( options.icons ) {
@@ -12509,9 +12509,9 @@ $.widget( "ui.dialog", {
 
 	_restoreTabbableFocus: function() {
 		var activeElement = $.ui.safeActiveElement( this.document[ 0 ] ),
-			isActive = this.uiDialog[ 0 ] === activeElement ||
+			active = this.uiDialog[ 0 ] === activeElement ||
 				$.contains( this.uiDialog[ 0 ], activeElement );
-		if ( !isActive ) {
+		if ( !active ) {
 			this._focusTabbable();
 		}
 	},
@@ -17198,9 +17198,9 @@ $.widget( "ui.spinner", {
 		},
 		mousewheel: function( event, delta ) {
 			var activeElement = $.ui.safeActiveElement( this.document[ 0 ] );
-			var isActive = this.element[ 0 ] === activeElement;
+			var active = this.element[ 0 ] === activeElement;
 
-			if ( !isActive || !delta ) {
+			if ( !active || !delta ) {
 				return;
 			}
 
@@ -17228,8 +17228,8 @@ $.widget( "ui.spinner", {
 			previous = this.element[ 0 ] === $.ui.safeActiveElement( this.document[ 0 ] ) ?
 				this.previous : this.element.val();
 			function checkFocus() {
-				var isActive = this.element[ 0 ] === $.ui.safeActiveElement( this.document[ 0 ] );
-				if ( !isActive ) {
+				var active = this.element[ 0 ] === $.ui.safeActiveElement( this.document[ 0 ] );
+				if ( !active ) {
 					this.element.trigger( "focus" );
 					this.previous = previous;
 
@@ -18209,8 +18209,8 @@ $.widget( "ui.tabs", {
 			active = this.active,
 			anchor = $( event.currentTarget ),
 			tab = anchor.closest( "li" ),
-			clickedIsActive = tab[ 0 ] === active[ 0 ],
-			collapsing = clickedIsActive && options.collapsible,
+			clickedactive = tab[ 0 ] === active[ 0 ],
+			collapsing = clickedactive && options.collapsible,
 			toShow = collapsing ? $() : this._getPanelForTab( tab ),
 			toHide = !active.length ? $() : this._getPanelForTab( active ),
 			eventData = {
@@ -18231,7 +18231,7 @@ $.widget( "ui.tabs", {
 				this.running ||
 
 				// click on active header, but not collapsible
-				( clickedIsActive && !options.collapsible ) ||
+				( clickedactive && !options.collapsible ) ||
 
 				// allow canceling activation
 				( this._trigger( "beforeActivate", event, eventData ) === false ) ) {
@@ -18240,7 +18240,7 @@ $.widget( "ui.tabs", {
 
 		options.active = collapsing ? false : this.tabs.index( tab );
 
-		this.active = clickedIsActive ? $() : tab;
+		this.active = clickedactive ? $() : tab;
 		if ( this.xhr ) {
 			this.xhr.abort();
 		}

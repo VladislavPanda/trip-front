@@ -871,9 +871,9 @@
             return pages;
         },
 
-        _createPagerNavButton: function(text, pageIndex, isActive) {
-            return this._createPagerButton(text, this.pagerNavButtonClass + (isActive ? "" : " " + this.pagerNavButtonInactiveClass),
-                isActive ? function() { this.openPage(pageIndex); } : $.noop);
+        _createPagerNavButton: function(text, pageIndex, active) {
+            return this._createPagerButton(text, this.pagerNavButtonClass + (active ? "" : " " + this.pagerNavButtonInactiveClass),
+                active ? function() { this.openPage(pageIndex); } : $.noop);
         },
 
         _createPagerPageNavButton: function(text, handler) {

@@ -36,26 +36,26 @@
               <!-- form start -->
               <form @submit.prevent="submitForm">
                 <div class="card-body">
-                  <div class="form-group">
-                    <label for="inputName">Имя</label>
-                    <input type="text" class="form-control" id="inputName" 
-                      placeholder="Введите имя" v-model="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSurname">Фамилия</label>
-                    <input type="text" class="form-control" id="inputSurname" 
-                      placeholder="Введите фамилию" v-model="surname" required>
-                  </div>
+<!--                  <div class="form-group">-->
+<!--                    <label for="inputName">Имя</label>-->
+<!--                    <input type="text" class="form-control" id="inputName" -->
+<!--                      placeholder="Введите имя" v-model="name" required>-->
+<!--                  </div>-->
+<!--                  <div class="form-group">-->
+<!--                    <label for="inputSurname">Фамилия</label>-->
+<!--                    <input type="text" class="form-control" id="inputSurname" -->
+<!--                      placeholder="Введите фамилию" v-model="surname" required>-->
+<!--                  </div>-->
                   <div class="form-group">
                     <label for="inputEmail">Email</label>
                     <input type="email" class="form-control" id="inputEmail" 
                       placeholder="Введите Email" v-model="email" required>
                   </div>
-                  <div class="form-group">
-                    <label for="inputPhone">Телефон</label>
-                    <input type="phone" class="form-control" id="inputPhone" 
-                      placeholder="Введите телефон" v-model="phone" required>
-                  </div>
+<!--                  <div class="form-group">-->
+<!--                    <label for="inputPhone">Телефон</label>-->
+<!--                    <input type="phone" class="form-control" id="inputPhone" -->
+<!--                      placeholder="Введите телефон" v-model="phone" required>-->
+<!--                  </div>-->
                   <div class="form-group">
                     <label for="exampleSelectRounded0">Роль</label>
                     <select class="custom-select rounded-0" id="inputRole" v-model="role">
@@ -111,17 +111,17 @@
     methods: {
       submitForm() {
         const formData = new FormData()
-        formData.append('name', this.name)
-        formData.append('surname', this.surname)
+        // formData.append('name', this.name)
+        // formData.append('surname', this.surname)
         formData.append('email', this.email)
-        formData.append('phone', this.phone)
+        // formData.append('phone', this.phone)
 
-        let role = this.role == 'Сотрудник' ? 'worker' : 'accountant' 
+        let role = this.role == 'Сотрудник' ? 'worker' : 'accountant'
         const token = localStorage.getItem('token')
 
         formData.append('role', role)
 
-        axios.post('http://localhost:8400/auth/register', formData,
+        axios.post('http://localhost:8400/account', formData,
         {
           headers: {
             'Accept': 'application/json',

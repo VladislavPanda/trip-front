@@ -10708,8 +10708,8 @@ var ui = function ui(editorOptions) {
       $btn.toggleClass('disabled', !isEnable);
       $btn.attr('disabled', !isEnable);
     },
-    toggleBtnActive: function toggleBtnActive($btn, isActive) {
-      $btn.toggleClass('active', isActive);
+    toggleBtnActive: function toggleBtnActive($btn, active) {
+      $btn.toggleClass('active', active);
     },
     check: function check($dom, value) {
       $dom.find('.checked').removeClass('checked');

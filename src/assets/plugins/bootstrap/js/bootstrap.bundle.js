@@ -4206,11 +4206,11 @@
         return;
       }
 
-      var isActive = $__default["default"](this._menu).hasClass(CLASS_NAME_SHOW$5);
+      var active = $__default["default"](this._menu).hasClass(CLASS_NAME_SHOW$5);
 
       Dropdown._clearMenus();
 
-      if (isActive) {
+      if (active) {
         return;
       }
 
@@ -4531,16 +4531,16 @@
 
       var parent = Dropdown._getParentFromElement(this);
 
-      var isActive = $__default["default"](parent).hasClass(CLASS_NAME_SHOW$5);
+      var active = $__default["default"](parent).hasClass(CLASS_NAME_SHOW$5);
 
-      if (!isActive && event.which === ESCAPE_KEYCODE$1) {
+      if (!active && event.which === ESCAPE_KEYCODE$1) {
         return;
       }
 
       event.preventDefault();
       event.stopPropagation();
 
-      if (!isActive || event.which === ESCAPE_KEYCODE$1 || event.which === SPACE_KEYCODE) {
+      if (!active || event.which === ESCAPE_KEYCODE$1 || event.which === SPACE_KEYCODE) {
         if (event.which === ESCAPE_KEYCODE$1) {
           $__default["default"](parent.querySelector(SELECTOR_DATA_TOGGLE$2)).trigger('focus');
         }
@@ -6409,9 +6409,9 @@
       }
 
       for (var i = this._offsets.length; i--;) {
-        var isActiveTarget = this._activeTarget !== this._targets[i] && scrollTop >= this._offsets[i] && (typeof this._offsets[i + 1] === 'undefined' || scrollTop < this._offsets[i + 1]);
+        var activeTarget = this._activeTarget !== this._targets[i] && scrollTop >= this._offsets[i] && (typeof this._offsets[i + 1] === 'undefined' || scrollTop < this._offsets[i + 1]);
 
-        if (isActiveTarget) {
+        if (activeTarget) {
           this._activate(this._targets[i]);
         }
       }

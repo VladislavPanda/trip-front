@@ -847,7 +847,7 @@
                 var _strLength = LEXICON.l;
                 var _loopingInstances = [];
                 var _loopingInstancesIntervalCache = [];
-                var _loopIsActive = false;
+                var _loopactive = false;
                 var _loopIntervalDefault = 33;
                 var _loopInterval = _loopIntervalDefault;
                 var _loopTimeOld = _getNow();
@@ -858,7 +858,7 @@
                  * The auto update loop which will run every 50 milliseconds or less if the update interval of a instance is lower than 50 milliseconds.
                  */
                 var loop = function () {
-                    if (_loopingInstances[_strLength] > 0 && _loopIsActive) {
+                    if (_loopingInstances[_strLength] > 0 && _loopactive) {
                         _loopID = COMPATIBILITY.rAF()(function () {
                             loop();
                         });
@@ -905,9 +905,9 @@
                     if (_inArray(instance, _loopingInstances) === -1) {
                         _loopingInstances.push(instance);
                         _loopingInstancesIntervalCache.push(_getNow());
-                        if (_loopingInstances[_strLength] > 0 && !_loopIsActive) {
-                            _loopIsActive = true;
-                            globals.autoUpdateLoop = _loopIsActive;
+                        if (_loopingInstances[_strLength] > 0 && !_loopactive) {
+                            _loopactive = true;
+                            globals.autoUpdateLoop = _loopactive;
                             loop();
                         }
                     }
@@ -925,9 +925,9 @@
                         _loopingInstances.splice(index, 1);
 
                         //correct update loop behavior
-                        if (_loopingInstances[_strLength] === 0 && _loopIsActive) {
-                            _loopIsActive = false;
-                            globals.autoUpdateLoop = _loopIsActive;
+                        if (_loopingInstances[_strLength] === 0 && _loopactive) {
+                            _loopactive = false;
+                            globals.autoUpdateLoop = _loopactive;
                             if (_loopID !== undefined) {
                                 COMPATIBILITY.cAF()(_loopID);
                                 _loopID = -1;

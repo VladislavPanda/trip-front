@@ -45,18 +45,18 @@
                         <td>{{ user.name }}</td>
                         <td>{{ user.surname }}</td>
                         <td>
-                          <span v-if="user.role === 'ADMIN'">Руководитель</span>
-                          <span v-else-if="user.role === 'WORKER'">Сотрудник</span>
-                          <span v-else-if="user.role === 'MANAGER'">Бухгалтер</span>
+                          <span v-if="user.role === 'admin'">Руководитель</span>
+                          <span v-else-if="user.role === 'worker'">Сотрудник</span>
+                          <span v-else-if="user.role === 'manager'">Бухгалтер</span>
                           <span v-else>{{ user.role }}</span>
                         </td>
                         <td>{{ user.email }}</td>
                         <td>
-                          <button v-if="user.isActive == false" type="button" 
+                          <button v-if="user.active == false" type="button"
                             class="btn btn-success btn-lg" 
                             :id="'unBan-button-' + user.id" @click="unBan(user.id)">Разбан
                           </button>
-                          <button v-if="user.isActive == true" type="button" 
+                          <button v-if="user.active == true" type="button"
                             class="btn btn-lg btn-danger" 
                             :id="'ban-button-' + user.id" @click="ban(user.id)">Бан
                           </button>
@@ -66,8 +66,8 @@
                             class="btn btn-lg btn-primary" 
                             :id="'change-role-button-' + user.id" 
                             @click="changeRole(user.id, user.role)">
-                            <span v-if="user.role === 'WORKER'">Сменить роль (на бухгалтера)</span>
-                            <span v-if="user.role === 'MANAGER'">Сменить роль (на сотрудника)</span>
+                            <span v-if="user.role === 'worker'">Сменить роль (на бухгалтера)</span>
+                            <span v-if="user.role === 'accountant'">Сменить роль (на сотрудника)</span>
                           </button>
                         </td>
                         <td>
@@ -129,9 +129,9 @@ export default {
       const token = localStorage.getItem('token')
       const authResponseDataArr = JSON.parse(authResponseData)
 
-      axios.post('http://localhost:8400/account/status', {
+      axios.put('http://localhost:8400/account/status', {
         id: userId,
-        isActive: false
+        active: false
       }, {
         headers: {
           'Accept': 'application/json',
@@ -143,7 +143,7 @@ export default {
         // Обработка успешного ответа от сервера
         const user = this.users.find(u => u.id === userId)
         if (user) {
-          user.isActive = false
+          user.active = false
         }
       })
       .catch(error => {
@@ -156,9 +156,9 @@ export default {
       const token = localStorage.getItem('token')
       const authResponseDataArr = JSON.parse(authResponseData)
 
-      axios.post('http://localhost:8400/account/status', {
+      axios.put('http://localhost:8400/account/status', {
         id: userId,
-        isActive: true
+        active: true
       },
       {
         headers: {
@@ -170,7 +170,7 @@ export default {
       .then(response => {
         const user = this.users.find(u => u.id === userId)
         if (user) {
-          user.isActive = true
+          user.active = true
         }
       })
       .catch(error => {
@@ -195,7 +195,7 @@ export default {
         // Обработка успешного ответа от сервера
         const user = this.users.find(u => u.id === userId)
         if (user) {
-          user.role = user.role == 'WORKER' ? 'MANAGER' : 'WORKER'
+          user.role = user.role == 'worker' ? 'accountant' : 'worker'
         }
       })
       .catch(error => {

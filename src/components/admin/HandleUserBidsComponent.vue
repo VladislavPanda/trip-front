@@ -122,7 +122,7 @@
   
         axios.post('http://localhost/ban.php', { // http://localhost:8400/account/status
           id: userId,
-          isActive: false
+          active: false
         }, {
           headers: {
             'Accept': 'application/json',
@@ -134,7 +134,7 @@
           // Обработка успешного ответа от сервера
           const user = this.users.find(u => u.id === userId)
           if (user) {
-            user.isActive = false
+            user.active = false
           }
         })
         .catch(error => {
@@ -147,7 +147,7 @@
   
         axios.post('http://localhost/unBan.php', { // http://localhost:8400/account/status
           id: userId,
-          isActive: true
+          active: true
         },
         {
           headers: {
@@ -159,7 +159,7 @@
         .then(response => {
           const user = this.users.find(u => u.id === userId)
           if (user) {
-            user.isActive = true
+            user.active = true
           }
         })
         .catch(error => {

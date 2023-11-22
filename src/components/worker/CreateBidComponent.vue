@@ -36,21 +36,21 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputCountry">Страна</label>
-                      <input type="text" class="form-control" id="inputCountry" 
+                      <input type="text" class="form-control" id="inputCountry"
                         placeholder="Страна командировки" v-model="country" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputCity">Город</label>
-                      <input type="text" class="form-control" id="inputCity" 
+                      <input type="text" class="form-control" id="inputCity"
                         placeholder="Город командировки" v-model="city" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputOrganization">Организация</label>
-                      <input type="text" class="form-control" id="inputOrganization" 
+                      <input type="text" class="form-control" id="inputOrganization"
                         placeholder="Организация" v-model="organization" required>
                     </div>
                   </div>
@@ -74,7 +74,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Цель</label>
-                    <input type="position" class="form-control" id="inputPosition" 
+                    <input type="position" class="form-control" id="inputPosition"
                       placeholder="Цель командировки" v-model="goal" required>
                   </div>
 
@@ -83,7 +83,7 @@
                     <label>Название:</label>
                         <input type="text" class="form-control" v-model="expense.name" required>
                         <br>
-                        
+
                         <label>Цена:</label>
                         <input type="number" class="form-control" v-model="expense.price" required>
                         <br>
@@ -128,42 +128,32 @@ import axios from 'axios'
     methods: {
       submitForm() {
         // Создаем объект данных формы
-        const formData = new FormData();
-
-        // Добавляем значения полей формы в объект данных
-        formData.append('country', this.country);
-        formData.append('city', this.city);
-        formData.append('organization', this.organization);
-        formData.append('startDate', this.startDate);
-        formData.append('endDate', this.endDate);
-        formData.append('goal', this.goal);
-        const testExpenses = [
-          {
-            "name": "Проживание",
-            "price": 200
-          },
-          {
-            "name": "Транспорт",
-            "price": 50
-          }
-        ]
-        formData.append('expensesRequestList', JSON.stringify(testExpenses));
+        const data = {
+          country: this.country,
+          city: this.city,
+          organization: this.organization,
+          startDate: this.startDate,
+          endDate: this.endDate,
+          goal: this.goal,
+          expensesRequestList: this.expensesRequestList,
+        };
 
         //console.log(formData)
-        
+
         const token = localStorage.getItem('token')
 
         // Отправляем данные формы на сервер
-        axios.post('http://localhost:8400/trip', formData,
+        axios.post('http://localhost:8400/trip', data,
         {
           headers: {
             //'Accept': 'application/json',
             'Content-Type': 'application/json',
+
             'Authorization': `Bearer ${token}`
           }
         })
           .then(response => {
-            console.log(response)            
+            console.log(response)
           })
           .catch(error => {
             console.error(error);
@@ -172,7 +162,7 @@ import axios from 'axios'
       addExpense() {
         this.country = this.form.country;
         this.expensesRequestList.push({ name: '', price: null });
-        
+
       },
       removeExpense(index) {
         this.expensesRequestList.splice(index, 1);
@@ -185,7 +175,7 @@ import axios from 'axios'
       },*/
       logout() {
         localStorage.clear(); // Очищаем localStorage
-  
+
         // Делаем редирект на определенный маршрут
         this.$router.push('/');
       }
