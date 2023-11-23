@@ -28,9 +28,6 @@
           <!-- Main row -->
           <div class="row">
             <div class="col-md-4">
-
-            </div>
-            <div class="col-md-4">
               <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title"></h3>
@@ -50,9 +47,40 @@
                       placeholder="Ваша фамилия" v-bind:value="surname" required>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" 
-                      placeholder="Ваш Email" v-bind:value="email" required>
+                    <label for="inputPhone">Телефон</label>
+                    <input type="phone" class="form-control" id="inputPhone" 
+                      placeholder="Ваш телефон" v-model="phone" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputPosition">Должность</label>
+                    <input type="position" class="form-control" id="inputPosition" 
+                      placeholder="Ваша должность" v-model="position" required>
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+              </form>
+            </div>
+            </div>
+            <!--<div class="col-md-4">
+              <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"></h3>
+              </div>
+              <form @submit.prevent="submitAddress">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputName">Имя</label>
+                    <input type="text" class="form-control" id="inputName" 
+                      placeholder="Ваше имя" v-bind:value="name" required>
+                  </div>
+                  <div class="form-group">
+                    <label for="inputSurname">Фамилия</label>
+                    <input type="text" class="form-control" id="inputSurname" 
+                      placeholder="Ваша фамилия" v-bind:value="surname" required>
                   </div>
                   <div class="form-group">
                     <label for="inputPhone">Телефон</label>
@@ -64,22 +92,34 @@
                     <input type="position" class="form-control" id="inputPosition" 
                       placeholder="Ваша должность" v-bind:value="position" required>
                   </div>
-                  <div class="form-group">
-                    <label for="inputAddress">Адрес</label>
-                    <input type="address" class="form-control" id="inputAddress" 
-                      placeholder="Ваш адрес" v-bind:value="address" required>
-                  </div>
                 </div>
-                <!-- /.card-body -->
 
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
-            </div>
-            </div>
-            <div class="col-md-4">
+              </div>
+            </div>-->
 
+            <div class="col-md-4">
+              <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title"></h3>
+              </div>
+              <form @submit.prevent="submitBankAccount">
+                <div class="card-body">
+                  <div class="form-group">
+                    <label for="inputName">Банковский счёт</label>
+                    <input type="text" class="form-control" id="inputName" 
+                      placeholder="Банковский счёт" v-model="bankAccount" required>
+                  </div>
+                </div>
+
+                <div class="card-footer">
+                  <button type="submit" class="btn btn-primary">Сохранить</button>
+                </div>
+              </form>
+              </div>
             </div>
           </div>
           <!-- /.row (main row) -->
@@ -96,44 +136,73 @@
       return {
         name: '',
         surname: '',
-        email: '',
         token: '',
-        phone: '',
-        position: '',
-        bank_account: '',
-        address: '',
-        avatar: ''
+        phone: '-',
+        position: '-',
+        bankAccount: ''
       };
     },
     methods: {
       submitForm() {
+        const accountResponse = JSON.parse(localStorage.getItem('accountResponse'))
+        const role = accountResponse['role'].toLowerCase()
+
         // Создаем объект данных формы
         const formData = new FormData();
 
         // Добавляем значения полей формы в объект данных
         formData.append('name', this.name);
         formData.append('surname', this.surname);
-        formData.append('email', this.email);
         formData.append('phone', this.phone);
         formData.append('position', this.position);
-        formData.append('address', this.address);
+        formData.append('role', role);
         
         const token = localStorage.getItem('token')
 
         // Отправляем данные формы на сервер
-        axios.post('http://localhost:8400/account', formData,
+        axios.put('http://localhost:8400/account', formData,
         {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
+            //'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
           }
         })
           .then(response => {
-            console.log(response)            
+            const authResponseData = JSON.parse(localStorage.getItem('accountResponse')) || {};
+            authResponseData['phone'] = formData.get('phone');
+            authResponseData['position'] = formData.get('position');
+            localStorage.setItem('accountResponse', JSON.stringify(authResponseData));           
           })
           .catch(error => {
             console.error(error);
           });
+      },
+      submitBankAccount () {
+          const token = localStorage.getItem('token')
+          
+          // Создаем объект данных формы
+          const formData = new FormData();
+
+          // Добавляем значения полей формы в объект данных
+          formData.append('bankAccount', this.bankAccount);
+          
+          axios.post('http://localhost:8400/account/card', formData,
+          {
+            headers: {
+              //'Accept': 'application/json',
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            }
+          })
+            .then(response => {
+              const authResponseData = JSON.parse(localStorage.getItem('accountResponse')) || {};
+              authResponseData['bankAccount'] = formData.get('bankAccount');
+              localStorage.setItem('accountResponse', JSON.stringify(authResponseData));
+            })
+            .catch(error => {
+              console.error(error);
+            });
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage
@@ -147,13 +216,14 @@
 
       if (storedData) {
         const data = JSON.parse(storedData);
+
         this.name = data.name
         this.surname = data.surname
         this.email = data.email,
         this.token = data.token,
         this.phone = data.phone,
         this.position = data.position,
-        this.bank_account = data.bank_account,
+        this.bankAccount = data.bankAccount,
         this.address = data.address,
         this.avatar = data.avatar
       }

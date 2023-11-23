@@ -44,6 +44,10 @@
                         </tr>
                       </tbody>
                     </table>
+                    <paginate
+                      :pageCount="Math.ceil(logs.length / perPage)"
+                      :clickHandler="handlePageChange"
+                    />
                   </div>
                 </div>
               </div>
@@ -60,16 +64,30 @@
   
   <script>
   import axios from 'axios'
+  import Paginate from 'vuejs-paginate'
+
   export default {
     data() {
       return {
-        logs: []
+        logs: [],
+        currentPage: 1,
+        perPage: 20,
       };
+    },
+    computed: {
+      displayedLogs() {
+        const start = (this.currentPage - 1) * this.perPage
+        const end = start + this.perPage
+        return this.logs.slice(start, end)
+      }
     },
     mounted() {
       this.fetchLogs();
     },
     methods: {
+      handlePageChange(pageNumber) {
+        this.currentPage = pageNumber
+      },
       fetchLogs() {
         const token = localStorage.getItem('token')
   

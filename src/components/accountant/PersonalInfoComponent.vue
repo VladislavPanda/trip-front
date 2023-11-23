@@ -50,11 +50,6 @@
                       placeholder="Ваша фамилия" v-bind:value="surname" required>
                   </div>
                   <div class="form-group">
-                    <label for="inputEmail">Email</label>
-                    <input type="email" class="form-control" id="inputEmail" 
-                      placeholder="Ваш Email" v-bind:value="email" required>
-                  </div>
-                  <div class="form-group">
                     <label for="inputPhone">Телефон</label>
                     <input type="phone" class="form-control" id="inputPhone" 
                       placeholder="Ваш телефон" v-bind:value="phone" required>
@@ -63,11 +58,6 @@
                     <label for="inputPosition">Должность</label>
                     <input type="position" class="form-control" id="inputPosition" 
                       placeholder="Ваша должность" v-bind:value="position" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputAddress">Адрес</label>
-                    <input type="address" class="form-control" id="inputAddress" 
-                      placeholder="Ваш адрес" v-bind:value="address" required>
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -96,36 +86,35 @@
       return {
         name: '',
         surname: '',
-        email: '',
         token: '',
-        phone: '',
-        position: '',
-        bank_account: '',
-        address: '',
-        avatar: ''
+        phone: '-',
+        position: '-',
       };
     },
     methods: {
       submitForm() {
+        const accountResponse = JSON.parse(localStorage.getItem('accountResponse'))
+        const role = accountResponse['role'].toLowerCase()
+
         // Создаем объект данных формы
         const formData = new FormData();
 
         // Добавляем значения полей формы в объект данных
         formData.append('name', this.name);
         formData.append('surname', this.surname);
-        formData.append('email', this.email);
         formData.append('phone', this.phone);
         formData.append('position', this.position);
-        formData.append('address', this.address);
+        formData.append('role', role);
         
         const token = localStorage.getItem('token')
 
         // Отправляем данные формы на сервер
-        axios.post('http://localhost:8400/account', formData,
+        axios.put('http://localhost:8400/account', formData,
         {
           headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
+            //'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`,
+            'Content-Type': 'application/json',
           }
         })
           .then(response => {
