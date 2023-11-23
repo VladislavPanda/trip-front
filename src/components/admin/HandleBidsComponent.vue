@@ -60,7 +60,16 @@
                             <span v-else-if="request.status === 'CLOSED'">Закрыта</span>
                             <span v-else>Создана</span>
                           </td>
-                          <td>Проживание: 200, транспорт: 50</td>
+                          <td>
+                            <button @click="toggleAdditionalInfo(request.id)">
+                              <i :class="showAdditionalInfo[request.id] ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
+                            </button>
+                          </td>
+                          <td :rowspan="showAdditionalInfo[request.id] ? 1 : 2">
+                            <div v-if="showAdditionalInfo[request.id]">
+                              Проживание: 200, транспорт: 50
+                            </div>
+                          </td>
                           <td>
                             <button type="button" class="btn btn-success btn-lg"
                               @click="accept(request.id)">
@@ -95,13 +104,22 @@
       <!-- /.content -->
     </div>
   </template>
+
+<style>
+.arrow-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+</style>
   
 <script>
   import axios from 'axios'
   export default {
     data() {
       return {
-        requests: []
+        requests: [],
+        showAdditionalInfo: {}
       };
     },
     mounted() {
@@ -123,6 +141,14 @@
           .catch(error => {
             console.error(error);
         });
+      },
+      toggleAdditionalInfo(requestId) {
+        // При клике на стрелку, переключаем значение флага для конкретной заявки
+        if (this.showAdditionalInfo[requestId]) {
+          this.showAdditionalInfo[requestId] = false;
+        } else {
+          this.showAdditionalInfo[requestId] = true;
+        }
       },
       accept(requestId) {
         const token = localStorage.getItem('token');

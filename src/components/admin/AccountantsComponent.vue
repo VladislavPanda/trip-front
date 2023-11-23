@@ -98,84 +98,8 @@
             console.error(error);
           });
       },
-      ban (userId) {
-        const authResponseData = localStorage.getItem('authResponseData')
-        const token = localStorage.getItem('token')
-        const authResponseDataArr = JSON.parse(authResponseData)
-  
-        axios.post('http://localhost:8400/account/status', {
-          id: userId,
-          active: false
-        }, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        },
-        )
-        .then(response => {
-          // Обработка успешного ответа от сервера
-          const user = this.users.find(u => u.id === userId)
-          if (user) {
-            user.active = false
-          }
-        })
-        .catch(error => {
-          // Обработка ошибок при запросе
-          console.error(error);
-        });
-      },
-      unBan (userId) {
-        const authResponseData = localStorage.getItem('authResponseData')
-        const token = localStorage.getItem('token')
-        const authResponseDataArr = JSON.parse(authResponseData)
-  
-        axios.post('http://localhost:8400/account/status', {
-          id: userId,
-          active: true
-        },
-        {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }
-        )
-        .then(response => {
-          const user = this.users.find(u => u.id === userId)
-          if (user) {
-            user.active = true
-          }
-        })
-        .catch(error => {
-          // Обработка ошибок при запросе
-          console.error(error)
-        });
-      },
-      changeRole(userId, currentRole) {
-        const token = localStorage.getItem('token')
-  
-        axios.put('http://localhost:8400/account/role', {
-          id: userId,
-          role: currentRole
-        }, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        },
-        )
-        .then(response => {
-          // Обработка успешного ответа от сервера
-          const user = this.users.find(u => u.id === userId)
-          if (user) {
-            user.role = user.role == 'WORKER' ? 'MANAGER' : 'WORKER'
-          }
-        })
-        .catch(error => {
-          // Обработка ошибок при запросе
-          console.error(error);
-        });
+      getTakenBids (userId) {
+
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage
