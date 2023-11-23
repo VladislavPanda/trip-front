@@ -68,6 +68,8 @@ export default {
     const router = useRouter();
     const formData = new FormData();
 
+    console.log(formData)
+
     const submit = async () => {
       
         // Добавляем значения полей формы в объект данных

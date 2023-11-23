@@ -125,18 +125,23 @@
         });
       },
       accept(requestId) {
-        const token = localStorage.getItem('token')
-
+        const token = localStorage.getItem('token');
         axios.post('http://localhost:8400/trip/' + requestId, {
-          status: 'Принята',
-          description: 'Ваша заявка была принята'
-        }, {
+            status: 'Принята',
+            description: 'Ваша заявка была принята'
+          }, {
           headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        },
-        )
+          }).then(() => {
+            // Обновить страницу
+            window.location.reload();
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
+        );
       },
       reject(requestId) {
         const token = localStorage.getItem('token')
@@ -149,7 +154,13 @@
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        },
+        }).then(() => {
+            // Обновить страницу
+            window.location.reload();
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
         )
       }, 
       close(requestId) {
@@ -163,7 +174,13 @@
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        },
+        }).then(() => {
+            // Обновить страницу
+            window.location.reload();
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
         )
       },
       logout() {

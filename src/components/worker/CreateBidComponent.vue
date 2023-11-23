@@ -78,16 +78,27 @@
                       placeholder="Цель командировки" v-model="goal" required>
                   </div>
 
-                  <!--<h5>Расходы на командировку:</h5>
-                  <div class="form-group">
-                    <label>Название:</label>
-                        <input type="text" class="form-control" v-model="expense.name" required>
-                        <br>
+                  <!-- Иконка "стрелка вниз" для добавления новой пары полей -->
+                  <h5>Расходы на командировку</h5>
+                  <div>
+                    <a href="#" @click.prevent="addNewExpenseField" style="margin-right: 300px;">
+                      <i class="fa fa-plus fa-2x"></i>
+                    </a>
+                    <a href="#" @click.prevent="removeExpenseField">
+                        <i class="fa fa-times fa-2x"></i>
+                    </a>
+                  </div>
 
-                        <label>Цена:</label>
-                        <input type="number" class="form-control" v-model="expense.price" required>
-                        <br>
-                  </div>-->
+                  <!-- Поля для дополнительных расходов -->
+                  <div v-for="(expense, index) in expensesRequestList" :key="index">
+                    <input type="text" class="form-control" v-model="expense.name"
+                      placeholder="Название траты" min="1">
+                    <input type="number" class="form-control" v-model="expense.price"
+                      placeholder="Сумма" min="1">
+                    <br>
+                    <br>
+                    
+                  </div>
                 </div>
 
                 <!-- /.card-body -->
@@ -111,6 +122,9 @@
 
 <script>
 import axios from 'axios'
+import '@fortawesome/fontawesome-free/css/all.css';
+import '@fortawesome/fontawesome-free/js/all.js';
+
   export default {
     data() {
       return {
@@ -123,9 +137,16 @@ import axios from 'axios'
         expensesRequestList: [
           { name: '', price: null }
         ],
+        showAdditionalFields: false
       };
     },
     methods: {
+      addNewExpenseField() {
+        this.expensesRequestList.push({ name: '', price: null });
+      },
+      removeExpenseField() {
+        this.expensesRequestList.pop();
+      },
       submitForm() {
         // Создаем объект данных формы
         const data = {
@@ -138,7 +159,7 @@ import axios from 'axios'
           expensesRequestList: this.expensesRequestList,
         };
 
-        //console.log(formData)
+        console.log(this.expensesRequestList)
 
         const token = localStorage.getItem('token')
 
@@ -148,7 +169,6 @@ import axios from 'axios'
           headers: {
             //'Accept': 'application/json',
             'Content-Type': 'application/json',
-
             'Authorization': `Bearer ${token}`
           }
         })
@@ -159,20 +179,7 @@ import axios from 'axios'
             console.error(error);
           });
       },
-      addExpense() {
-        this.country = this.form.country;
-        this.expensesRequestList.push({ name: '', price: null });
-
-      },
-      removeExpense(index) {
-        this.expensesRequestList.splice(index, 1);
-      },
-      /*addBlock() {
-        const lastBlock = this.expensesRequestList[this.expensesRequestList.length - 1];
-        const newBlockId = this.expensesRequestList.length + 1;
-        const newBlock = { id: newBlockId, name: lastBlock.input1, price: lastBlock.input2 };
-        this.blocks.push(newBlock);
-      },*/
+      
       logout() {
         localStorage.clear(); // Очищаем localStorage
 
