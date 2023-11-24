@@ -125,7 +125,7 @@
             }
           })
             .then(response => {
-              localStorage.setItem('accountResponse', JSON.stringify(response.data))
+              // localStorage.setItem('accountResponse', JSON.stringify(response.data))
               this.result = 'Данные были успешно отредактированы'
               this.bankAccount = ''
             })

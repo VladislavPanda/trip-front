@@ -134,8 +134,9 @@
       },
       getBankAccount(requestId) { 
         const token = localStorage.getItem('token')
-
-        axios.get('http://localhost:8400/manager/card/' + requestId, {
+        const storedData = localStorage.getItem('accountResponse')
+        const data = JSON.parse(storedData)
+        axios.get('http://localhost:8400/manager/card/' + data["id"], {
           headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`

@@ -55,14 +55,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-book"></i>
-              <p>
-                Изменения статусов заявок
-              </p>
-            </a>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <a href="#" class="nav-link">-->
+<!--              <i class="nav-icon fas fa-book"></i>-->
+<!--              <p>-->
+<!--                Изменения статусов заявок-->
+<!--              </p>-->
+<!--            </a>-->
+<!--          </li>-->
           <li class="nav-item">
             <a href="/admin/accountants" class="nav-link">
               <i class="nav-icon fas fa-book"></i>

@@ -47,6 +47,7 @@
               <div class="card-footer">
                 <button type="submit" class="btn btn-primary">Сохранить</button>
               </div>
+
             </form>
                 <div v-if="result != ''" class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -125,7 +126,7 @@
             }
           })
             .then(response => {
-              localStorage.setItem('accountResponse', JSON.stringify(response.data))
+              // localStorage.setItem('accountResponse', JSON.stringify(response.data))
               this.result = 'Данные были успешно отредактированы'
               this.bankAccount = ''
             })
