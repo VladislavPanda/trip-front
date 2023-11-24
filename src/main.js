@@ -6,6 +6,7 @@ import "bootstrap/dist/css/bootstrap.css"
 import "bootstrap/dist/js/bootstrap.js"
 import { FontAwesomeIcon } from './plugins/font-awesome'
 import axios from 'axios'
+import Paginate from 'vuejs-paginate'
 import "./assets/dist/css/adminlte.css"
 
 createApp(App)

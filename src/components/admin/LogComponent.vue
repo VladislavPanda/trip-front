@@ -38,16 +38,16 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="log in logs">
+                        <tr v-for="(log, index) in paginatedLogs" :key="index">
                           <td>{{ log.action }}</td>
                           <td>{{ log.localDateTime }}</td>
                         </tr>
                       </tbody>
                     </table>
-                    <paginate
-                      :pageCount="Math.ceil(logs.length / perPage)"
-                      :clickHandler="handlePageChange"
-                    />
+                    <div>
+      <button @click="prevPage" :disabled="currentPage === 1">Предыдущая страница</button>
+      <button @click="nextPage" :disabled="currentPage * pageSize >= logs.length">Следующая страница</button>
+    </div>
                   </div>
                 </div>
               </div>
@@ -71,39 +71,46 @@
       return {
         logs: [],
         currentPage: 1,
-        perPage: 20,
+        pageSize: 10
       };
     },
     computed: {
-      displayedLogs() {
-        const start = (this.currentPage - 1) * this.perPage
-        const end = start + this.perPage
-        return this.logs.slice(start, end)
+      paginatedLogs() {
+        const start = (this.currentPage - 1) * this.pageSize;
+        const end = start + this.pageSize;
+        return this.logs.slice(start, end);
       }
     },
     mounted() {
       this.fetchLogs();
     },
     methods: {
-      handlePageChange(pageNumber) {
-        this.currentPage = pageNumber
-      },
       fetchLogs() {
-        const token = localStorage.getItem('token')
-  
-        axios.get('http://localhost:8400/admin/records', {
+      const token = localStorage.getItem('token');
+
+      axios.get('http://localhost:8400/admin/records', {
           headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
           }
         })
-          .then(response => {
-            this.logs = response.data;
-          })
-          .catch(error => {
-            console.error(error);
-          });
-      },
+        .then(response => {
+          this.logs = response.data;
+        })
+        .catch(error => {
+          console.error(error);
+        });
+    },
+    nextPage() {
+      if (this.currentPage * this.pageSize < this.logs.length) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
       logout() {
         localStorage.clear(); // Очищаем localStorage
   
