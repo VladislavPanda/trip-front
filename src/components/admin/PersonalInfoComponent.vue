@@ -39,12 +39,12 @@
                   <div class="form-group">
                     <label for="inputName">Имя</label>
                     <input type="text" class="form-control" id="inputName" 
-                      placeholder="Ваше имя" v-bind:value="name" required>
+                      placeholder="Ваше имя" v-model="name" required>
                   </div>
                   <div class="form-group">
                     <label for="inputSurname">Фамилия</label>
                     <input type="text" class="form-control" id="inputSurname" 
-                      placeholder="Ваша фамилия" v-bind:value="surname" required>
+                      placeholder="Ваша фамилия" v-model="surname" required>
                   </div>
                   <div class="form-group">
                     <label for="inputPhone">Телефон</label>

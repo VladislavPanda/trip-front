@@ -3,8 +3,8 @@
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-3"></div>
-          <div class="col-md-6">
+          <div class="col-md-4"></div>
+          <div class="col-md-4" style="margin-top: 250px">
             <!-- jquery validation -->
             <div class="card card-primary">
               <div class="card-header">
@@ -41,7 +41,7 @@
                 </div>
               </div>
             </div>
-            <div class="col-md-2"></div>
+            <div class="col-md-4"></div>
           <!--/.col (left) -->
         </div>
         <!-- /.row -->

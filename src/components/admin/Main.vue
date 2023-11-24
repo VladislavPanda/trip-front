@@ -180,7 +180,9 @@ export default {
     },
     changeRole(userId, currentRole) {
       const token = localStorage.getItem('token')
-
+      currentRole = currentRole.toLowerCase()
+      console.log(currentRole)
+      currentRole = currentRole === 'worker' ? 'accountant' : 'worker'
       axios.put('http://localhost:8400/account/role', {
         id: userId,
         role: currentRole
@@ -195,7 +197,7 @@ export default {
         // Обработка успешного ответа от сервера
         const user = this.users.find(u => u.id === userId)
         if (user) {
-          user.role = user.role == 'worker' ? 'accountant' : 'worker'
+          user.role = user.role === 'WORKER' ? 'MANAGER': 'WORKER'
         }
       })
       .catch(error => {

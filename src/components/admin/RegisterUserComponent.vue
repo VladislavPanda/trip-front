@@ -127,7 +127,7 @@
 
         formData.append('role', role)
 
-        axios.post('http://localhost:8400/auth/register', formData,
+        axios.post('http://localhost:8400/account', formData,
         {
           headers: {
             'Accept': 'application/json',
@@ -137,6 +137,11 @@
         })
           .then(response => {
             this.success = 'Пользователь был успешно добавлен'
+            this.name = ''
+            this.surname = ''
+            this.email = ''
+            this.phone = ''
+            this.position = ''
           })
           .catch(error => {
             if (error.response.status === 400) {
