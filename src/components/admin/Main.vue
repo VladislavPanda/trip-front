@@ -45,9 +45,9 @@
                         <td>{{ user.name }}</td>
                         <td>{{ user.surname }}</td>
                         <td>
-                          <span v-if="user.role === 'admin'">Руководитель</span>
-                          <span v-else-if="user.role === 'worker'">Сотрудник</span>
-                          <span v-else-if="user.role === 'manager'">Бухгалтер</span>
+                          <span v-if="user.role === 'ADMIN'">Руководитель</span>
+                          <span v-else-if="user.role === 'WORKER'">Сотрудник</span>
+                          <span v-else-if="user.role === 'MANAGER'">Бухгалтер</span>
                           <span v-else>{{ user.role }}</span>
                         </td>
                         <td>{{ user.email }}</td>
@@ -66,8 +66,8 @@
                             class="btn btn-lg btn-primary" 
                             :id="'change-role-button-' + user.id" 
                             @click="changeRole(user.id, user.role)">
-                            <span v-if="user.role === 'worker'">Сменить роль (на бухгалтера)</span>
-                            <span v-if="user.role === 'accountant'">Сменить роль (на сотрудника)</span>
+                            <span v-if="user.role === 'WORKER'">Сменить роль (на бухгалтера)</span>
+                            <span v-if="user.role === 'MANAGER'">Сменить роль (на сотрудника)</span>
                           </button>
                         </td>
                         <td>

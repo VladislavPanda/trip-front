@@ -104,17 +104,20 @@
             'Authorization': `Bearer ${token}`
           }
         })
-          .then(response => {
+        .then(response => {
             if (response.data.message) {
-              this.errors.push(response.data.message)
+              this.errors = [response.data.message]; // Заменяем текущий массив сообщений новым сообщением
+              this.success = ''; // Очищаем успешное сообщение
             } else {
-              this.success = 'Пароль был успешно изменён'
-              this.errors = []
+              this.success = 'Пароль был успешно изменён';
+              this.errors = []; // Очищаем массив ошибок, так как операция прошла успешно
             }
-          })
+          }
+        )
           .catch(error => {
             if (error.response.status === 400) {
-              this.errors = error.response.data.errors
+              this.errors = error.response.data.errors; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
             }
           })
       },
