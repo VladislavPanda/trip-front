@@ -10,13 +10,13 @@
             </div><!-- /.col -->
             <ul class="nav nav-pills ml-auto">
               <li class="nav-item">
-                <a class="nav-link active" style="margin-right:10px" href="/admin/updatePersonalInfo">Редактировать личную информацию</a>
+                <a class="nav-link active" style="margin-right:10px" href="/worker/updatePersonalInfo">Редактировать личную информацию</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" style="margin-right:10px" href="/admin/updateBankAccount">Редактировать банковский счёт</a>
+                <a class="nav-link active" style="margin-right:10px" href="/worker/updateBankAccount">Редактировать банковский счёт</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" style="margin-right:10px" href="/admin/changePassword">Сменить пароль</a>
+                <a class="nav-link active" style="margin-right:10px" href="/worker/changePassword">Сменить пароль</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="#" @click="logout" data-toggle="tab">Выход из аккаунта</a>

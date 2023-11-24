@@ -17,6 +17,12 @@ import AccountantPersonalInfo from '../views/accountant/PersonalInfo'
 import AccountantChangePassword from '../views/accountant/ChangePassword'
 import WorkerPersonalInfo from '../views/worker/PersonalInfo'
 import WorkerChangePassword from '../views/worker/ChangePassword'
+import UpdatePersonalInfo from '../views/admin/UpdatePersonalInfo'
+import UpdateBankAccount from '../views/admin/UpdateBankAccount'
+import AccountantUpdatePersonalInfo from '../views/accountant/AccountantUpdatePersonalInfo'
+import AccountantUpdateBankAccount from '../views/accountant/AccountantUpdateBankAccount'
+import WorkerUpdatePersonalInfo from '../views/worker/WorkerUpdatePersonalInfo'
+import WorkerUpdateBankAccount from '../views/worker/WorkerUpdateBankAccount'
 
 const routes = [
   {
@@ -163,6 +169,36 @@ const routes = [
     path: '/worker/changePassword',
     //name: 'Item',
     component: WorkerChangePassword
+  },
+  {
+    path: '/admin/updatePersonalInfo',
+    //name: 'Item',
+    component: UpdatePersonalInfo
+  },
+  {
+    path: '/admin/updateBankAccount',
+    //name: 'Item',
+    component: UpdateBankAccount
+  },
+  {
+    path: '/accountant/updatePersonalInfo',
+    //name: 'Item',
+    component: AccountantUpdatePersonalInfo
+  },
+  {
+    path: '/accountant/updateBankAccount',
+    //name: 'Item',
+    component: AccountantUpdateBankAccount
+  },
+  {
+    path: '/worker/updatePersonalInfo',
+    //name: 'Item',
+    component: WorkerUpdatePersonalInfo
+  },
+  {
+    path: '/worker/updateBankAccount',
+    //name: 'Item',
+    component: WorkerUpdateBankAccount
   },
 ]
 
