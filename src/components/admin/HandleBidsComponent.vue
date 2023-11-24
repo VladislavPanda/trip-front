@@ -56,7 +56,7 @@
                           <td>{{ request.goal }}</td>
                           <td>
                             <span v-if="request.status === 'ACCEPTED'">Принята</span>
-                            <span v-else-if="request.status === 'DECLINED'">Отклонена</span>
+                            <span v-else-if="request.status === 'REJECTED'">Отклонена</span>
                             <span v-else-if="request.status === 'CLOSED'">Закрыта</span>
                             <span v-else>Создана</span>
                           </td>

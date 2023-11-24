@@ -39,12 +39,12 @@
                 <div class="form-group">
                   <label for="inputName">Имя</label>
                   <input type="text" class="form-control" id="inputName" 
-                    placeholder="Ваше имя" v-bind:value="name" required>
+                    placeholder="Ваше имя" v-model="name" required>
                 </div>
                 <div class="form-group">
                   <label for="inputSurname">Фамилия</label>
                   <input type="text" class="form-control" id="inputSurname" 
-                    placeholder="Ваша фамилия" v-bind:value="surname" required>
+                    placeholder="Ваша фамилия" v-model="surname" required>
                 </div>
                 <div class="form-group">
                   <label for="inputPhone">Телефон</label>
@@ -192,9 +192,10 @@
             }
           })
             .then(response => {
+              console.log(response)
               const authResponseData = JSON.parse(localStorage.getItem('accountResponse')) || {};
               authResponseData['bankAccount'] = formData.get('bankAccount');
-              localStorage.setItem('accountResponse', JSON.stringify(authResponseData));
+              localStorage.setItem('accountResponse', JSON.stringify(response.data));
             })
             .catch(error => {
               console.error(error);
@@ -209,7 +210,7 @@
     },
     mounted() {
       const storedData = localStorage.getItem('accountResponse');
-
+      console.log(localStorage.getItem('accountResponse'))
       if (storedData) {
         const data = JSON.parse(storedData);
         this.name = data.name

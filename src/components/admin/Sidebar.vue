@@ -11,7 +11,8 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img v-bind:src="avatar" class="img-circle elevation-2" alt="User Image">
+<!--          <img v-bind:src="avatar" class="img-circle elevation-2" alt="User Image">-->
+          <img src="../../assets/profile.png" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
           <a href="/admin/personalInfo" class="d-block">{{ name }} {{ surname }}</a>

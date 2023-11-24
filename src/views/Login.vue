@@ -32,13 +32,10 @@
                   <button type="submit" class="btn btn-primary">Войти</button>
                 </div>
               </form>
-              <div>
+              <div  class="alert alert-danger" v-if="data.error !== ''" >
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
               <!-- Блок ошибок -->    
-              <div v-if="data.errors.length > 0" class="alert alert-danger">
-                <ul>
-                  <li v-for="error in data.errors" :key="error">{{ error }}</li>
-                </ul>
-                </div>
+                <span>{{data.error}}</span>
               </div>
             </div>
             <div class="col-md-4"></div>
@@ -62,7 +59,7 @@ export default {
     const data = reactive ({
       email: '',
       password: '',
-      errors: []
+      error: ''
     });
 
     const router = useRouter();
@@ -104,9 +101,11 @@ export default {
             break;
         }
       }
-
-      if (response.data.errors) {
-        data.errors = response.data.errors
+      console.log(response.data)
+      if (response.data.message) {
+        data.error = response.data.message
+        data.email =''
+        data.password =''
       }
     }
 
