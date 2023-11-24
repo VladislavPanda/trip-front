@@ -107,6 +107,11 @@
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
+
+              <div v-if="success != ''" class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-check"></i>Заявка была успешно добавлена</h5>
+              </div>
             </div>
             </div>
             <div class="col-md-4">
@@ -137,7 +142,8 @@ import '@fortawesome/fontawesome-free/js/all.js';
         expensesRequestList: [
           { name: '', price: null }
         ],
-        showAdditionalFields: false
+        showAdditionalFields: false,
+        success: ''
       };
     },
     methods: {
@@ -159,8 +165,6 @@ import '@fortawesome/fontawesome-free/js/all.js';
           expensesRequestList: this.expensesRequestList,
         };
 
-        console.log(this.expensesRequestList)
-
         const token = localStorage.getItem('token')
 
         // Отправляем данные формы на сервер
@@ -173,7 +177,14 @@ import '@fortawesome/fontawesome-free/js/all.js';
           }
         })
           .then(response => {
-            console.log(response)
+            this.country = ''
+            this.city = ''
+            this.organization = ''
+            this.startDate = ''
+            this.endDate = ''
+            this.goal = ''
+            this.expensesRequestList = []
+            this.success = 'Заявка была успешно добавлена'
           })
           .catch(error => {
             console.error(error);

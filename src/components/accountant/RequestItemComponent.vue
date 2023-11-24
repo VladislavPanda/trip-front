@@ -41,21 +41,25 @@
                       {{ expense.name }}: ${{ expense.price }}
                   </dd>
                 </dl>
-                <button type="button" class="btn btn-success btn-lg"
-                              @click="getBankAccount(request.id)">
-                              Получить банковский счет
+                <button type="button" class="btn btn-success btn-lg" @click="getBankAccount(request.id)" v-if="!showBankAccount">
+                  Получить банковский счет
                 </button>
+
+                <!-- Отображение банковского счета -->
+                <div v-if="showBankAccount">
+                  <strong>Банковский счёт:</strong> <strong>{{ bankAccount }}</strong>
+                </div>
 
               <div class="container-fluid" style="margin-left: -30px;">
                 <div class="row">
                   <div class="col-md-5">
-                    <form id="quickForm" @submit.prevent="submit">
+                    <form id="quickForm" @submit.prevent="topUp">
                       <div class="card-body">
                         <div class="form-group">
                           <label for="exampleInputSum">Введите сумму</label>
                           <input type="text" name="sum" class="form-control" 
                               id="exampleInputSum" placeholder="Введите сумму"
-                              v-bind:value="sum">
+                              v-model="sum">
                         </div>
                       </div>
                       <!-- /.card-body -->
@@ -82,7 +86,8 @@
       return {
         request: {},
         bankAccount: '',
-        sum: ''
+        sum: '',
+        showBankAccount: false
       };
     },
     mounted() {
@@ -132,12 +137,13 @@
 
         axios.get('http://localhost:8400/manager/card/' + requestId, {
           headers: {
-              'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
           }
         })
           .then(response => {
             this.bankAccount = response.data.bankAccount;
+            this.showBankAccount = true; // Установка переменной состояния в true
           })
           .catch(error => {
             console.error(error);
@@ -153,7 +159,22 @@
         }
       },
       topUp() {
+        const token = localStorage.getItem('token')
+        const id = this.$route.params.id
 
+        axios.post(`http://localhost:8400/manager/top-up/` + id + '/' + this.sum, {
+          headers: {
+            // 'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            this.request = response.data;
+            localStorage.setItem('request', JSON.stringify(this.request));
+          })
+          .catch(error => {
+            console.error(error);
+          });
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage
