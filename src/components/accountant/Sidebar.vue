@@ -47,7 +47,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/accountant/getUserRequests" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
                 Выдать денежные средства на командировку

@@ -23,6 +23,7 @@ import AccountantUpdatePersonalInfo from '../views/accountant/AccountantUpdatePe
 import AccountantUpdateBankAccount from '../views/accountant/AccountantUpdateBankAccount'
 import WorkerUpdatePersonalInfo from '../views/worker/WorkerUpdatePersonalInfo'
 import WorkerUpdateBankAccount from '../views/worker/WorkerUpdateBankAccount'
+import BidsTaken from '../views/accountant/BidsTaken'
 
 const routes = [
   {
@@ -199,6 +200,11 @@ const routes = [
     path: '/worker/updateBankAccount',
     //name: 'Item',
     component: WorkerUpdateBankAccount
+  },
+  {
+    path: '/accountant/getUserRequests',
+    //name: 'Item',
+    component: BidsTaken
   },
 ]
 

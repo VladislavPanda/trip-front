@@ -112,7 +112,25 @@ export default {
           });
     },
     take(requestId) {
-      this.$router.push({path: '/accountant/request/item/' + requestId});
+      const token = localStorage.getItem('token')
+
+      axios.put(
+            'http://localhost:8400/manager/take-requests/' + requestId,
+            null,
+            {
+              headers: {
+                'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
+              }
+            }
+          )
+            .then(response => {
+              this.requests = response.data;
+            })
+            .catch(error => {
+              console.error(error);
+            });
+      // this.$router.push({path: '/accountant/request/item/' + requestId});
     },
     logout() {
       localStorage.clear(); // Очищаем localStorage

@@ -71,6 +71,12 @@
                             </div>
                           </td>
                           <td>
+                            <button type="button" class="btn btn-lg btn-primary"
+                              @click="downloadFile(request.filePath)">
+                              Скачать документ
+                            </button>
+                          </td>
+                          <td>
                             <button type="button" class="btn btn-success btn-lg"
                               @click="accept(request.id)">
                               Принять
@@ -208,6 +214,27 @@
             console.error(error);
           }
         )
+      },
+      downloadFile(filepath) {
+        const token = localStorage.getItem('token')
+        
+        axios.get('http://localhost:8400/file', {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        })
+          .then(response => {
+            const blob = new Blob([response.data], {type: 'application/html'})
+            const link = document.createElement('a')
+            link.href = URL.createObjectURL(blob)
+            link.download = "filename.html"
+            link.click()
+            URL.revokeObjectURL(link.href)
+          })
+          .catch(error => {
+            console.error(error);
+          });
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage

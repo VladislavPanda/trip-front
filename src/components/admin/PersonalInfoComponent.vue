@@ -77,7 +77,7 @@
     mounted() {
       const storedData = localStorage.getItem('accountResponse')
       const token = localStorage.getItem('token')
-
+      
       if (storedData) {
         const data = JSON.parse(storedData);
 
