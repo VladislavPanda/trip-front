@@ -60,7 +60,7 @@
                         </button>
                       </td>
                     </tr>
-                    <button  @click="getFile()">Download file</button>
+<!--                    <button  @click="getFile()">Download file</button>-->
 
                     </tbody>
                   </table>
@@ -92,7 +92,7 @@ export default {
   },
   mounted() {
     this.fetchRequests();
-    this.getFile();
+    // this.getFile();
   },
   methods: {
     fetchRequests() {
