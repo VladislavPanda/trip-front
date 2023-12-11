@@ -39,10 +39,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/accountant/diagrams" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
-                Аналитика средств командировки
+                Диаграммы
               </p>
             </a>
           </li>

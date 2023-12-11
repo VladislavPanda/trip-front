@@ -54,22 +54,30 @@
                         placeholder="Организация" v-bind:value="organisation" required>
                     </div>
                   </div>
+                  <!--<div class="form-group">
+                    <label>Начало командировки:</label>
+                    <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" id="datetimepicker" data-toggle="datetimepicker" data-target="#datetimepicker" />
+                      <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                    </div>
+                  </div>-->
                   <div class="form-group">
                     <label>Начало командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateStart">
+                      <div class="input-group-append" data-target="#reservationdateStart" data-toggle="datetimepicker">
+                        <date-picker v-model="date" :config="options"></date-picker>
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group">
                     <label>Окончание командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div class="input-group date" id="reservationdateEnd" data-target-input="nearest">
+                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateEnd">
+                      <div class="input-group-append" data-target="#reservationdateEnd" data-toggle="datetimepicker">
+                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                      </div>
                     </div>
                   </div>
                   <div class="form-group">
@@ -109,11 +117,27 @@
 
 <script>
 import axios from 'axios'
+
   export default {
     data() {
       return {
         country: '',
-
+        date: new Date(),
+        options: {
+          format: "DD/MM/YYYY h:m:s a",
+          useCurrent: false,
+          icons: {
+            time: "far fa-clock",
+            date: "far fa-calendar",
+            up: "fas fa-arrow-up",
+            down: "fas fa-arrow-down",
+            previous: "fas fa-chevron-left",
+            next: "fas fa-chevron-right",
+            today: "fas fa-calendar-check",
+            clear: "far fa-trash-alt",
+            close: "far fa-times-circle",
+          },
+        },
       };
     },
     methods: {

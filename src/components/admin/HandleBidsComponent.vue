@@ -60,16 +60,19 @@
                             <span v-else-if="request.status === 'CLOSED'">Закрыта</span>
                             <span v-else>Создана</span>
                           </td>
-                          <td>
-                            <button @click="toggleAdditionalInfo(request.id)">
-                              <i :class="showAdditionalInfo[request.id] ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
-                            </button>
-                          </td>
-                          <td :rowspan="showAdditionalInfo[request.id] ? 1 : 2">
-                            <div v-if="showAdditionalInfo[request.id]">
-                              Проживание: 200, транспорт: 50
-                            </div>
-                          </td>
+                          <tr>
+                            <td :colspan="2">
+                              <div>
+                                <span @click="showAdditionalInfo[request.id] = !showAdditionalInfo[request.id]">
+                                  <i :class="showAdditionalInfo[request.id] ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
+                                </span>
+                              </div>
+                              <div v-show="showAdditionalInfo[request.id]"
+                                   v-for="expenseList in request.expensesList">
+                                  <span>{{ expenseList.name }}: {{ expenseList.price }}</span><br>
+                              </div>
+                            </td>
+                          </tr>
                           <td>
                             <button type="button" class="btn btn-lg btn-primary"
                               @click="downloadFile(request.filePath)">

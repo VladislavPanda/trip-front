@@ -24,6 +24,8 @@ import AccountantUpdateBankAccount from '../views/accountant/AccountantUpdateBan
 import WorkerUpdatePersonalInfo from '../views/worker/WorkerUpdatePersonalInfo'
 import WorkerUpdateBankAccount from '../views/worker/WorkerUpdateBankAccount'
 import BidsTaken from '../views/accountant/BidsTaken'
+import Diagrams from '../views/accountant/Diagrams'
+import AdminDiagrams from '../views/admin/AdminDiagrams'
 
 const routes = [
   {
@@ -205,6 +207,16 @@ const routes = [
     path: '/accountant/getUserRequests',
     //name: 'Item',
     component: BidsTaken
+  },
+  {
+    path: '/accountant/diagrams',
+    //name: 'Item',
+    component: Diagrams
+  },
+  {
+    path: '/admin/diagrams',
+    //name: 'Item',
+    component: AdminDiagrams
   },
 ]
 
