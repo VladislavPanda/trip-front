@@ -51,12 +51,12 @@
           </div>
         
         <div class="row">
-          <div v-if="showChart" class="col-md-6" style="margin-left: 200px;">
-            <div style="width: 600px; height: 450px;">
+          <div v-if="showChart" class="col-md-12">
+            <div>
               <Pie
                 id="my-chart-id1"
-                :options="chartOptions1"
-                :data="chartData1"
+                :options="chartOptions"
+                :data="chartData"
               />
             </div>
           </div>
@@ -83,7 +83,7 @@
         showChart: false,
         startDate: '',
         endDate: '',
-        chartData1: {
+        chartData: {
           labels: [],
           datasets: [ 
             { 
@@ -93,7 +93,7 @@
             } 
           ]
         },
-        chartOptions1: {
+        chartOptions: {
           responsive: true
         },
       }
@@ -106,7 +106,7 @@
         this.$router.push('/');
       },
       submitDatesForm() {
-        this.showChart = false;
+        //this.showChart = false;
         const token = localStorage.getItem('token')
 
         const formData = new FormData();
@@ -120,6 +120,7 @@
             'Authorization': `Bearer ${token}`
           }
         }).then(response => {
+          response.data = {"value": 123, "value1": 456}
           this.chartData.datasets[0].data = [];
           this.chartData.labels = [];
           this.chartData.labels = Object.keys(response.data);
@@ -130,7 +131,18 @@
 
           this.showChart = true;
         }).catch(error => {
-            console.error(error);
+          const response = {}
+          response.data = {"value": 123, "value1": 456}
+          this.chartData.datasets[0].data = [];
+          this.chartData.labels = [];
+          this.chartData.labels = Object.keys(response.data);
+
+          for (let key in response.data) {
+            console.log(response.data[key])
+            this.chartData.datasets[0].data.push(response.data[key]);
+          }
+
+          this.showChart = true;
           }
         );
   
@@ -141,8 +153,8 @@
   </script>
   
   <style>
-    #my-chart-id1 {
-      width: 500px; 
-      height: 200px; 
-    }
-  </style>
+#my-chart-id1 {
+  width: 500px;
+  height: 200px;
+}
+</style>

@@ -102,6 +102,11 @@
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
+              <div class="alert alert-danger" v-if="error !== ''">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <!-- Блок ошибок -->
+                <span>{{ error }}</span>
+              </div>
             </div>
             </div>
             <div class="col-md-4">
@@ -123,6 +128,7 @@ import axios from 'axios'
     data() {
       return {
         country: '',
+        error: '',
         date: new Date(),
         options: {
           format: "DD/MM/YYYY h:m:s a",
@@ -156,7 +162,6 @@ import axios from 'axios'
 
         const token = localStorage.getItem('token')
         
-
         // Отправляем данные формы на сервер
         axios.post('http://localhost:8400/trip', data,
         {
@@ -176,7 +181,9 @@ import axios from 'axios'
             this.success = 'Заявка была успешно добавлена'
           })
           .catch(error => {
-            console.error(error);
+            if (error.response.status === 400) {
+              data.error = error.response.message
+            }
           });
       },
       logout() {
