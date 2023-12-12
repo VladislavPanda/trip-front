@@ -65,47 +65,46 @@ export default {
     const router = useRouter();
     const formData = new FormData();
 
-    console.log(formData)
-
     const submit = async () => {
+      // Очистка объекта formData перед добавлением новых значений
+      formData.delete('email');
+      formData.delete('password');
       
-        // Добавляем значения полей формы в объект данных
+      // Добавляем значения полей формы в объект данных
       formData.append('email', data.email);
       formData.append('password', data.password);
-      const response = await axios.post(
-        'http://localhost:8400/auth/authenticate',
-        formData,
-        {
-          // withCredentials: true,
+
+      try {
+        const response = await axios.post('http://localhost:8400/auth/authenticate', formData, {
           headers: {
-            // 'Accept': 'application/json',
             'Content-Type': 'application/json' //'application/x-www-form-urlencoded'
-          },
-        }, 
-      );
+          }
+        });
+        
+        if (response.data.token) {
+          localStorage.setItem("token", response.data.token);
+          localStorage.setItem("accountResponse", JSON.stringify(response.data.accountResponse));
 
-      if (response.data.token) {
-        localStorage.setItem("token", response.data.token)
-        localStorage.setItem("accountResponse", JSON.stringify(response.data.accountResponse))
-
-        switch (response.data.accountResponse.role)
-        {
-          case 'ADMIN': 
-            await router.push('/admin')
-            break;
-          case 'MANAGER':
-            await router.push('/accountant')
-            break;
-          case 'WORKER':
-            await router.push('/worker')
-            break;
+          switch (response.data.accountResponse.role) {
+            case 'ADMIN': 
+              await router.push('/admin');
+              break;
+            case 'MANAGER':
+              await router.push('/accountant');
+              break;
+            case 'WORKER':
+              await router.push('/worker');
+              break;
+          }
+        } else {
+          // Проверка на ошибку 403
+          if (response.status === 403) {
+            data.error = 'Ошибка авторизации: доступ запрещен';
+          }
         }
-      }
-      console.log(response.data)
-      if (response.data.message) {
-        data.error = response.data.message
-        data.email =''
-        data.password =''
+      } catch (error) {
+        // Обработка ошибок
+        data.error = 'Произошла ошибка при выполнении запроса';
       }
     }
 

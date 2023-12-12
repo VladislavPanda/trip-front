@@ -39,10 +39,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/worker/createPrePaymentReport" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
-                Аналитика средств командировки
+                Создать авансовый отчёт
               </p>
             </a>
           </li>
