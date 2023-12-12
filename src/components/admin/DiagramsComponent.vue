@@ -4,7 +4,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Диаграммы</h1>
+              <h1 class="m-0">Первая диаграмма</h1>
             </div><!-- /.col -->
             <ul class="nav nav-pills ml-auto">
               <li class="nav-item">
@@ -23,7 +23,7 @@
               </div>
               <form @submit.prevent="submitMonthsForm">
                 <div class="card-body">
-                  <select class="form-control">
+                  <select class="form-control" v-model="month">
                     <option value="JANUARY">Январь</option>
                     <option value="FEBRUARY">Февраль</option>
                     <option value="MARCH">Март</option>
@@ -44,38 +44,6 @@
               </form>
             </div>
           </div>
-          <div class="col-md-6">
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Выбрать даты </h3>
-              </div>
-              <form @submit.prevent="submitDatesForm">
-                <div class="card-body">
-                  <div class="form-group">
-                      <label>Стартовая дата:</label>
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input type="text" v-model="date"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                      </div>
-                    </div>
-                    <div class="form-group">
-                      <label>Конечная дата:</label>
-                      <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                          <input type="text" v-model="date"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                          <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                          </div>
-                      </div>
-                    </div>
-                  <div class="card-footer">
-                    <button type="submit" class="btn btn-primary">Сгенерировать диаграмму</button>
-                  </div>
-                </div>
-              </form>
-            </div>
-          </div>
         </div>
       
       <div class="row">
@@ -86,15 +54,6 @@
             :data="chartData"
           />
         </div>
-        <div v-if="showChart2" class="col-md-6" style="margin-left: 200px;">
-          <div >
-            <Pie
-              id="my-chart-id1"
-              :options="chartOptions1"
-              :data="chartData1"
-            />
-          </div>
-        </div>
       </div>
     </div>
     
@@ -103,21 +62,19 @@
 
 <script>
 import { Bar } from 'vue-chartjs'
-import { Pie } from 'vue-chartjs'
 import axios from 'axios'
-
-import {ArcElement, Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
+import {Chart as ChartJS, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-ChartJS.register(ArcElement);
 
 export default {
   name: 'BarChart',
-  components: { Bar, Pie },
+  components: { Bar },
   data() {
     return {
       showChart1: false,
       showChart2: false,
+      month: '',
       chartData: {
         labels: [],
         datasets: [ 
@@ -141,9 +98,6 @@ export default {
       chartOptions: {
         responsive: true
       },
-      chartOptions1: {
-        responsive: true
-      },
       reservationMonths: []
     }
   },
@@ -155,6 +109,22 @@ export default {
       this.$router.push('/');
     },
     submitMonthsForm() {
+      const token = localStorage.getItem('token')
+      
+      axios.post('http://localhost:8400/diagram/' + this.month,
+        {
+          headers: {
+            //'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response => {
+              console.log(response.data)
+          })
+          .catch(error => {
+              console.error(error);
+          }
+      );
+
       let obj = {
         "ключ1": 10,
         "ключ2": 20,
@@ -169,10 +139,6 @@ export default {
       }
 
       this.showChart1 = true;
-    },
-    submitDatesForm() {
-
-      this.showChart2 = true;
     }
   },
 }
