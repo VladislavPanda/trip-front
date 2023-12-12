@@ -80,12 +80,10 @@
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <h5><i class="icon fas fa-check"></i> Пользователь был успешно зарегистрирован</h5>
             </div>
-            <!-- Блок ошибок -->    
-            <div v-if="errors.length > 0" class="alert alert-danger">
+            <!-- Блок ошибок -->
+            <div v-if="error !== ''" class="alert alert-danger">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <ul>
-                  <li v-for="error in errors" :key="error">{{ error }}</li>
-                </ul>
+              <h5><i class="icon fas fa-check"></i> {{error}}</h5>
             </div>
             </div>
             <div class="col-md-4">
@@ -110,7 +108,7 @@
         phone: '',
         role: 'Сотрудник',
         success: '',
-        errors: []
+        error: ''
       };
     },
     methods: {
@@ -136,6 +134,7 @@
           }
         })
           .then(response => {
+            this.error = ''
             this.success = 'Пользователь был успешно добавлен'
             this.name = ''
             this.surname = ''
@@ -144,8 +143,9 @@
             this.position = ''
           })
           .catch(error => {
+            console.log(error.response)
             if (error.response.status === 400) {
-              this.errors = error.response.data.errors
+              this.error = error.response.data.message
             }
           })
       },
