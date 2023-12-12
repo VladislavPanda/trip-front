@@ -9,6 +9,7 @@ import axios from 'axios'
 import Paginate from 'vuejs-paginate'
 import "./assets/dist/css/adminlte.css"
 import { Bar } from 'vue-chartjs'
+import { Pie } from 'vue-chartjs'
 //import datePicker from 'vue-bootstrap-datetimepicker';
 
 createApp(App)

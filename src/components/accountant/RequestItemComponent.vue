@@ -127,6 +127,7 @@
         })
           .then(response => {
             this.request = response.data;
+            console.log(this.request)
           })
           .catch(error => {
             console.error(error);
@@ -163,7 +164,8 @@
         const token = localStorage.getItem('token')
         const id = this.$route.params.id
 
-        axios.post(`http://localhost:8400/manager/top-up/` + id + '/' + this.sum, {
+        axios.post(`http://localhost:8400/manager/top-up/` 
+          + id + '/' + this.sum + '/' + this.request.id, {
           headers: {
             // 'Accept': 'application/json',
             'Authorization': `Bearer ${token}`

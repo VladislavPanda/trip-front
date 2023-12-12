@@ -56,10 +56,18 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="/admin/diagrams" class="nav-link">
+            <a href="/admin/diagrams/first" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Диаграммы
+                Первая диаграмма
+              </p>
+            </a>
+          </li>
+          <li class="nav-item">
+            <a href="/admin/diagrams/second" class="nav-link">
+              <i class="nav-icon fas fa-th"></i>
+              <p>
+                Вторая диаграмма
               </p>
             </a>
           </li>

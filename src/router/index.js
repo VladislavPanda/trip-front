@@ -27,6 +27,7 @@ import BidsTaken from '../views/accountant/BidsTaken'
 import Diagrams from '../views/accountant/Diagrams'
 import AdminDiagrams from '../views/admin/AdminDiagrams'
 import CreatePrePaymentReport from '../views/worker/CreatePrePaymentReport'
+import SecondDiagram from '../views/admin/SecondDiagram'
 
 const routes = [
   {
@@ -215,9 +216,14 @@ const routes = [
     component: Diagrams
   },
   {
-    path: '/admin/diagrams',
+    path: '/admin/diagrams/first',
     //name: 'Item',
     component: AdminDiagrams
+  },
+  {
+    path: '/admin/diagrams/second',
+    //name: 'Item',
+    component: SecondDiagram
   },
   {
     path: '/worker/createPrePaymentReport',
