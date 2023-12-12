@@ -74,38 +74,36 @@ export default {
       formData.append('email', data.email);
       formData.append('password', data.password);
 
-      try {
-        const response = await axios.post('http://localhost:8400/auth/authenticate', formData, {
+        axios.post('http://localhost:8400/auth/authenticate', formData, {
           headers: {
             'Content-Type': 'application/json' //'application/x-www-form-urlencoded'
           }
-        });
-        
-        if (response.data.token) {
+        }).then(response => {
           localStorage.setItem("token", response.data.token);
           localStorage.setItem("accountResponse", JSON.stringify(response.data.accountResponse));
 
-          switch (response.data.accountResponse.role) {
+          if (response.data.token) {
+            switch (response.data.accountResponse.role) {
             case 'ADMIN': 
-              await router.push('/admin');
+              router.push('/admin');
               break;
             case 'MANAGER':
-              await router.push('/accountant');
+              router.push('/accountant');
               break;
             case 'WORKER':
-              await router.push('/worker');
+              router.push('/worker');
               break;
+            } 
+          }          
+        }).catch(error => {
+          if (error.response.status === 403) {
+            data.error = 'Неверный логин или пароль'
           }
-        } else {
-          // Проверка на ошибку 403
-          if (response.status === 403) {
-            data.error = 'Ошибка авторизации: доступ запрещен';
-          }
-        }
-      } catch (error) {
-        // Обработка ошибок
-        data.error = 'Произошла ошибка при выполнении запроса';
-      }
+
+          if (error.response.status === 400) {
+            data.error = 'Аккаунт с введённой почтой не найден'
+          } 
+        })
     }
 
     return {
