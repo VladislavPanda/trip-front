@@ -4,7 +4,7 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Создать заявку</h1>
+              <h1 class="m-0">Назначить командировку</h1>
             </div><!-- /.col -->
             <ul class="nav nav-pills ml-auto">
               <li class="nav-item">
@@ -143,20 +143,21 @@ import axios from 'axios'
     methods: {
       submitForm() {
         // Создаем объект данных формы
-        const formData = new FormData();
+        const data = {
+          country: this.country,
+          city: this.city,
+          organization: this.organization,
+          startDate: this.startDate,
+          endDate: this.endDate,
+          goal: this.goal,
+          expensesRequestList: this.expensesRequestList,
+        };
 
-        // Добавляем значения полей формы в объект данных
-        formData.append('name', this.name);
-        formData.append('surname', this.surname);
-        formData.append('email', this.email);
-        formData.append('phone', this.phone);
-        formData.append('position', this.position);
-        formData.append('address', this.address);
-        
         const token = localStorage.getItem('token')
+        
 
         // Отправляем данные формы на сервер
-        axios.post('http://localhost:8400/account', formData,
+        axios.post('http://localhost:8400/trip', data,
         {
           headers: {
             'Accept': 'application/json',
@@ -164,7 +165,14 @@ import axios from 'axios'
           }
         })
           .then(response => {
-            console.log(response)            
+            this.country = ''
+            this.city = ''
+            this.organization = ''
+            this.startDate = ''
+            this.endDate = ''
+            this.goal = ''
+            this.expensesRequestList = []
+            this.success = 'Заявка была успешно добавлена'
           })
           .catch(error => {
             console.error(error);

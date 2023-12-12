@@ -27,7 +27,7 @@
             <a href="/admin/bid/create" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
               <p>
-                Создать заявку на командировку
+                Назначить командировку
               </p>
             </a>
           </li>
