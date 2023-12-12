@@ -26,6 +26,7 @@ import WorkerUpdateBankAccount from '../views/worker/WorkerUpdateBankAccount'
 import BidsTaken from '../views/accountant/BidsTaken'
 import Diagrams from '../views/accountant/Diagrams'
 import AdminDiagrams from '../views/admin/AdminDiagrams'
+import CreatePrePaymentReport from '../views/worker/CreatePrePaymentReport'
 
 const routes = [
   {
@@ -217,6 +218,11 @@ const routes = [
     path: '/admin/diagrams',
     //name: 'Item',
     component: AdminDiagrams
+  },
+  {
+    path: '/worker/createPrePaymentReport',
+    //name: 'Item',
+    component: CreatePrePaymentReport
   },
 ]
 

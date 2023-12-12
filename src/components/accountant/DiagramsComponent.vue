@@ -1,5 +1,19 @@
 <template>
-  <div class="container">
+  <div class="content-wrapper">
+    <div class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1 class="m-0">Диаграммы</h1>
+          </div><!-- /.col -->
+          <ul class="nav nav-pills ml-auto">
+            <li class="nav-item">
+              <a class="nav-link active" href="#" @click="logout" data-toggle="tab">Выход из аккаунта</a>
+            </li>
+          </ul>
+        </div><!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </div>
     <div class="col-md-3">
 
     </div>
@@ -38,6 +52,14 @@ export default {
         responsive: true
       }
     }
+  },
+  methods: {
+    logout() {
+        localStorage.clear(); // Очищаем localStorage
+
+        // Делаем редирект на определенный маршрут
+        this.$router.push('/');
+      }
   }
 }
 </script>
