@@ -162,10 +162,11 @@
       },
       topUp() {
         const token = localStorage.getItem('token')
+        const storedData = localStorage.getItem('accountResponse')
         const id = this.$route.params.id
-
+        const data = JSON.parse(storedData)
         axios.post(`http://localhost:8400/manager/top-up/` 
-          + id + '/' + this.sum + '/' + this.request.id, {
+          + data["id"] + '/' + this.sum + '/' + this.request.id, {
           headers: {
             // 'Accept': 'application/json',
             'Authorization': `Bearer ${token}`

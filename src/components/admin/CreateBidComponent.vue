@@ -66,7 +66,7 @@
                     <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
                       <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateStart">
                       <div class="input-group-append" data-target="#reservationdateStart" data-toggle="datetimepicker">
-                        <date-picker v-model="date" :config="options"></date-picker>
+                        <Calendar v-model="date" inline showWeek />
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
                     </div>
@@ -117,6 +117,7 @@
 
 <script>
 import axios from 'axios'
+import Calendar from 'primevue/calendar';
 
   export default {
     data() {

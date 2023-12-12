@@ -20,6 +20,7 @@
     "core-js": "^3.8.3",
     "jquery": "^3.7.1",
     "popper.js": "^1.16.1",
+    "primevue": "^3.43.0",
     "vee-validate": "^4.11.8",
     "vue": "^3.2.13",
     "vue-chartjs": "^5.2.0",

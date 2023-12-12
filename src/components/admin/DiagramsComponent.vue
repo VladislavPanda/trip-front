@@ -74,7 +74,7 @@ export default {
     return {
       showChart1: false,
       showChart2: false,
-      month: '',
+      month: 'JANUARY',
       chartData: {
         labels: [],
         datasets: [ 
