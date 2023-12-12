@@ -1,27 +1,28 @@
 <template>
     <div class="content-wrapper">
       <div class="content-header">
-          <div class="container-fluid">
-            <div class="row mb-2">
-              <div class="col-sm-6">
-                <h1 class="m-0">Вторая диаграмма</h1>
-              </div><!-- /.col -->
-              <ul class="nav nav-pills ml-auto">
-                <li class="nav-item">
-                  <a class="nav-link active" href="#" @click="logout" data-toggle="tab">Выход из аккаунта</a>
-                </li>
-              </ul>
-            </div><!-- /.row -->
-          </div><!-- /.container-fluid -->
-        </div>
         <div class="container-fluid">
-          <div class="row">
-            <div class="col-md-6">
-              <div class="card card-primary">
-                <div class="card-header">
-                  <h3 class="card-title">Выбрать даты </h3>
-                </div>
-                <form @submit.prevent="submitDatesForm">
+          <div class="row mb-2">
+            <div class="col-sm-6">
+              <h1 class="m-0">Вторая диаграмма</h1>
+            </div><!-- /.col -->
+            <ul class="nav nav-pills ml-auto">
+              <li class="nav-item">
+                <a class="nav-link active" href="#" @click="logout" data-toggle="tab">Выход из аккаунта</a>
+              </li>
+            </ul>
+          </div><!-- /.row -->
+        </div><!-- /.container-fluid -->
+      </div>
+    
+    <div class="container">
+      <div class="row">
+        <div class="col-md-5">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">Выбрать месяц командировки</h3>
+            </div>
+            <form @submit.prevent="submitDatesForm">
                   <div class="card-body">
                     <div class="form-group">
                         <label>Стартовая дата:</label>
@@ -46,24 +47,22 @@
                     </div>
                   </div>
                 </form>
-              </div>
-            </div>
-          </div>
-        
-        <div class="row">
-          <div v-if="showChart" class="col-md-12">
-            <div>
-              <Pie
-                id="my-chart-id1"
-                :options="chartOptions"
-                :data="chartData"
-              />
-            </div>
           </div>
         </div>
       </div>
-      
+
+      <div class="row">
+        <div v-if="showChart" class="col-md-6">
+          <Pie
+              id="my-chart-id"
+              :options="chartOptions"
+              :data="chartData"
+          />
+        </div>
+      </div>
     </div>
+ </div>
+      
   </template>
   
   <script>
@@ -72,8 +71,7 @@
   
   import {Chart as ChartJS, ArcElement, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale } from 'chart.js'
   
-  ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
-  ChartJS.register(ArcElement);
+  ChartJS.register(ArcElement, Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
   
   export default {
     name: 'PieChart',
@@ -106,7 +104,18 @@
         this.$router.push('/');
       },
       submitDatesForm() {
-        //this.showChart = false;
+        this.showChart = false;
+
+        /*const data1 = {"value": 123, "value1": 456}
+          this.chartData.datasets[0].data = [];
+          this.chartData.labels = [];
+          this.chartData.labels = Object.keys(data1);
+
+          for (let key in data1) {
+            this.chartData.datasets[0].data.push(data1[key]);
+          }
+
+          this.showChart = true;*/
         const token = localStorage.getItem('token')
 
         const formData = new FormData();
@@ -116,35 +125,22 @@
         axios.post('http://localhost:8400/diagram', formData,
         {
           headers: {
-            //'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         }).then(response => {
-          response.data = {"value": 123, "value1": 456}
-          this.chartData.datasets[0].data = [];
-          this.chartData.labels = [];
-          this.chartData.labels = Object.keys(response.data);
-
-          for (let key in response.data) {
-            this.chartData.datasets[0].data.push(response.data[key]);
-          }
-
-          this.showChart = true;
+          
         }).catch(error => {
-          const response = {}
-          response.data = {"value": 123, "value1": 456}
+        
+        });
+
+        const data1 = {"value": 123, "value1": 456}
           this.chartData.datasets[0].data = [];
           this.chartData.labels = [];
-          this.chartData.labels = Object.keys(response.data);
+          this.chartData.labels = Object.keys(data1);
 
-          for (let key in response.data) {
-            console.log(response.data[key])
-            this.chartData.datasets[0].data.push(response.data[key]);
+          for (let key in data1) {
+            this.chartData.datasets[0].data.push(data1[key]);
           }
-
-          this.showChart = true;
-          }
-        );
   
         this.showChart = true;
       }
@@ -153,8 +149,8 @@
   </script>
   
   <style>
-#my-chart-id1 {
-  width: 500px;
-  height: 200px;
-}
-</style>
+    /*#my-chart-id1 {
+      width: 500px; 
+      height: 200px; 
+    }*/
+  </style>
