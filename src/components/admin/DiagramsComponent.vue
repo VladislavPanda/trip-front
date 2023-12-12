@@ -118,7 +118,14 @@ export default {
             'Authorization': `Bearer ${token}`
           }
         }).then(response => {
-              console.log(response.data)
+            this.chartData.datasets[0].data = [];
+            this.chartData.labels = Object.keys(response.data);
+
+            for (let key in response.data) {
+              this.chartData.datasets[0].data.push(response.data[key]);
+            }
+
+            this.showChart1 = true;
           })
           .catch(error => {
               console.error(error);
@@ -131,14 +138,7 @@ export default {
         "ключ3": 30
       };
 
-      this.chartData.datasets[0].data = [];
-      this.chartData.labels = Object.keys(obj);
-
-      for (let key in obj) {
-        this.chartData.datasets[0].data.push(obj[key]);
-      }
-
-      this.showChart1 = true;
+      
     }
   },
 }
