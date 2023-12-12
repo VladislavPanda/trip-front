@@ -70,14 +70,14 @@
                             <span v-if="user.role === 'MANAGER'">Сменить роль (на сотрудника)</span>
                           </button>
                         </td>
-                        <td>
-                          <button type="button" 
-                            class="btn btn-lg btn-primary" 
-                            :id="'change-role-button-' + user.id" 
-                            @click="bids(user.id)">
-                            <span>Список заявок</span>
-                          </button>
-                        </td>
+<!--                        <td>-->
+<!--                          <button v-if="user.role !== 'WORKER'" type="button"-->
+<!--                            class="btn btn-lg btn-primary" -->
+<!--                            :id="'change-role-button-' + user.id" -->
+<!--                            @click="bids(user.id)">-->
+<!--                            <span >Список заявок</span>-->
+<!--                          </button>-->
+<!--                        </td>-->
                       </tr>
                     </tbody>
                   </table>
