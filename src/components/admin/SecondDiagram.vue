@@ -4,7 +4,7 @@
           <div class="container-fluid">
             <div class="row mb-2">
               <div class="col-sm-6">
-                <h1 class="m-0">Диаграммы</h1>
+                <h1 class="m-0">Вторая диаграмма</h1>
               </div><!-- /.col -->
               <ul class="nav nav-pills ml-auto">
                 <li class="nav-item">
@@ -16,34 +16,6 @@
         </div>
         <div class="container-fluid">
           <div class="row">
-            <div class="col-md-5">
-              <div class="card card-primary">
-                <div class="card-header">
-                  <h3 class="card-title">Выбрать месяц командировки</h3>
-                </div>
-                <form @submit.prevent="submitMonthsForm">
-                  <div class="card-body">
-                    <select class="form-control">
-                      <option value="JANUARY">Январь</option>
-                      <option value="FEBRUARY">Февраль</option>
-                      <option value="MARCH">Март</option>
-                      <option value="APRIL">Апрель</option>
-                      <option value="MAY">Май</option>
-                      <option value="JUNE">Июнь</option>
-                      <option value="JULY">Июль</option>
-                      <option value="AUGUST">Август</option>
-                      <option value="SEPTEMBER">Сентябрь</option>
-                      <option value="OCTOBER">Октябрь</option>
-                      <option value="NOVEMBER">Ноябрь</option>
-                      <option value="DECEMBER">Декабрь</option>
-                    </select>
-                    <div class="card-footer">
-                      <button type="submit" class="btn btn-primary">Сгенерировать диаграмму</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
             <div class="col-md-6">
               <div class="card card-primary">
                 <div class="card-header">
@@ -53,18 +25,18 @@
                   <div class="card-body">
                     <div class="form-group">
                         <label>Стартовая дата:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" v-model="date"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group date" id="reservationdate">
+                            <input type="text" v-model="startDate" class="form-control" >
+                            <div class="input-group-append">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
                       </div>
                       <div class="form-group">
                         <label>Конечная дата:</label>
-                        <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                            <input type="text" v-model="date"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                            <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
+                        <div class="input-group date" id="reservationdate">
+                            <input type="text" v-model="endDate"  class="form-control" >
+                            <div class="input-group-append">
                                 <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                             </div>
                         </div>
@@ -79,15 +51,8 @@
           </div>
         
         <div class="row">
-          <div v-if="showChart1" class="col-md-6" style="margin-left: 200px; margin-bottom: 70px;">
-            <Bar
-              id="my-chart-id"
-              :options="chartOptions"
-              :data="chartData"
-            />
-          </div>
-          <div v-if="showChart2" class="col-md-6" style="margin-left: 200px;">
-            <div >
+          <div v-if="showChart" class="col-md-6" style="margin-left: 200px;">
+            <div style="width: 600px; height: 450px;">
               <Pie
                 id="my-chart-id1"
                 :options="chartOptions1"
@@ -102,7 +67,6 @@
   </template>
   
   <script>
-  import { Bar } from 'vue-chartjs'
   import { Pie } from 'vue-chartjs'
   import axios from 'axios'
   
@@ -112,39 +76,26 @@
   ChartJS.register(ArcElement);
   
   export default {
-    name: 'BarChart',
-    components: { Bar, Pie },
+    name: 'PieChart',
+    components: { Pie },
     data() {
       return {
-        showChart1: false,
-        showChart2: false,
-        chartData: {
+        showChart: false,
+        startDate: '',
+        endDate: '',
+        chartData1: {
           labels: [],
           datasets: [ 
             { 
               data: [],
-              label: 'Количество командировок за выбранный месяц',
-              backgroundColor: '#458ABF',
-            } 
-          ]
-        },
-        chartData1: {
-          labels: [ 'January', 'February', 'March' ],
-          datasets: [ 
-            { 
-              data: [15, 5, 10],
               label: 'Data One',
               backgroundColor: '#458ABF',
             } 
           ]
         },
-        chartOptions: {
-          responsive: true
-        },
         chartOptions1: {
           responsive: true
         },
-        reservationMonths: []
       }
     },
     methods: {
@@ -154,25 +105,36 @@
         // Делаем редирект на определенный маршрут
         this.$router.push('/');
       },
-      submitMonthsForm() {
-        let obj = {
-          "ключ1": 10,
-          "ключ2": 20,
-          "ключ3": 30
-        };
-  
-        this.chartData.datasets[0].data = [];
-        this.chartData.labels = Object.keys(obj);
-  
-        for (let key in obj) {
-          this.chartData.datasets[0].data.push(obj[key]);
-        }
-  
-        this.showChart1 = true;
-      },
       submitDatesForm() {
+        this.showChart = false;
+        const token = localStorage.getItem('token')
+
+        const formData = new FormData();
+        formData.append('from', this.startDate)
+        formData.append('to', this.endDate)
+
+        axios.post('http://localhost:8400/diagram', formData,
+        {
+          headers: {
+            //'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response => {
+          this.chartData.datasets[0].data = [];
+          this.chartData.labels = [];
+          this.chartData.labels = Object.keys(response.data);
+
+          for (let key in response.data) {
+            this.chartData.datasets[0].data.push(response.data[key]);
+          }
+
+          this.showChart = true;
+        }).catch(error => {
+            console.error(error);
+          }
+        );
   
-        this.showChart2 = true;
+        this.showChart = true;
       }
     },
   }
