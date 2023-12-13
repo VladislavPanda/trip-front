@@ -238,20 +238,23 @@
           }
         )
       },
-      downloadFile(filepath) {
+      downloadFile(path) {
+
+        const dt = {
+          filePath: path
+        };
         const token = localStorage.getItem('token')
         
-        axios.get('http://localhost:8400/file', {
+        axios.post('http://localhost:8400/file', dt, {
           headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        })
-          .then(response => {
-            const blob = new Blob([response.data], {type: 'application/html'})
+        }).then(response => {
+            const blob = new Blob([response.data], {type: 'application/pdf'})
             const link = document.createElement('a')
             link.href = URL.createObjectURL(blob)
-            link.download = "filename.html"
+            link.download = "filename.pdf"
             link.click()
             URL.revokeObjectURL(link.href)
           })
