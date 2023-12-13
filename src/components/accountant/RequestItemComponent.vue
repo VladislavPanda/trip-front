@@ -57,7 +57,7 @@
                       <div class="card-body">
                         <div class="form-group">
                           <label for="exampleInputSum">Введите сумму</label>
-                          <input type="text" name="sum" class="form-control" 
+                          <input type="number" min="1" name="sum" class="form-control" 
                               id="exampleInputSum" placeholder="Введите сумму"
                               v-model="sum">
                         </div>
@@ -67,6 +67,15 @@
                         <button type="submit" class="btn btn-primary">Отправить</button>
                       </div>
                     </form>
+                    <div v-if="success != ''" class="alert alert-success alert-dismissible">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <h5><i class="icon fas fa-check"></i> Баланс был успешно пополнен</h5>
+                    </div>
+                    <!-- Блок ошибок -->    
+                    <div v-if="error !== ''" class="alert alert-danger">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <h5><i class="icon fas fa-check"></i> {{error}}</h5>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -87,6 +96,7 @@
         request: {},
         bankAccount: '',
         sum: '',
+        error: '',
         showBankAccount: false
       };
     },
@@ -108,11 +118,18 @@
           }
         })
           .then(response => {
-            this.request = response.data;
-            localStorage.setItem('request', JSON.stringify(this.request));
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              this.request = response.data;
+              localStorage.setItem('request', JSON.stringify(this.request));
+              this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
+            }
           })
           .catch(error => {
-            console.error(error);
+            if (error.response.status === 400) {
+              this.error = error.response.data.errors; // Заменяем текущий массив ошибок новым массивом ошибок
+            }
           });
       },   
       fetchRequestItem() {

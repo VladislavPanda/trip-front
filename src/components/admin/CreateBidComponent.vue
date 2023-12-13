@@ -60,7 +60,7 @@
                     <div class="form-group">
                       <label for="inputOrganization">Организация</label>
                       <input type="text" class="form-control" id="inputOrganization" 
-                        placeholder="Организация" v-model="organisation" required>
+                        placeholder="Организация" v-model="organization" required>
                     </div>
                   </div>
                   <!--<div class="form-group">
@@ -71,27 +71,20 @@
                     </div>
                   </div>-->
                   <div class="form-group">
-                    <label>Начало командировки:</label>
-                    <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateStart">
-                      <div class="input-group-append" data-target="#reservationdateStart" data-toggle="datetimepicker">
-                        <Calendar v-model="startDate" inline showWeek />
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                    <div>
+                      <label for="datepicker">Выберите стартовую дату:</label>
+                      <input type="date" v-model="startDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Окончание командировки:</label>
-                    <div class="input-group date" id="reservationdateEnd" data-target-input="nearest">
-                      <input type="text" v-model="endDate" class="form-control datetimepicker-input" data-target="#reservationdateEnd">
-                      <div class="input-group-append" data-target="#reservationdateEnd" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                    <div>
+                      <label for="datepicker">Выберите конечную дату:</label>
+                      <input type="date" v-model="endDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Цель</label>
-                    <input type="position" v-model="goal" class="form-control" id="inputPosition" 
+                    <input type="text" v-model="goal" class="form-control" id="inputPosition" 
                       placeholder="Цель командировки" required>
                   </div>
 
@@ -105,7 +98,6 @@
                         <i class="fa fa-times fa-2x"></i>
                     </a>
                   </div>
-                  
                   <div v-for="(expense, index) in expensesRequestList" :key="index">
                     <input type="text" class="form-control" v-model="expense.name"
                       placeholder="Название траты" min="1">
@@ -122,6 +114,10 @@
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
+              <div v-if="success != ''" class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-check"></i>Заявка была успешно добавлена</h5>
+              </div>
               <div class="alert alert-danger" v-if="error !== ''">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <!-- Блок ошибок -->
@@ -145,20 +141,22 @@ import axios from 'axios'
 import Calendar from 'primevue/calendar';
 
   export default {
+    components: {
+    Calendar
+  },
     data() {
       return {
         country: '',
         startDate: '',
         endDate: '',
         city: '',
-        organisation: '',
+        organization: '',
         goal: '',
         error: '',
         userId: 'Выберите сотрудника',
         expensesRequestList: [
           { name: '', price: null }
         ],
-        date: new Date(),
         options: {
           format: "DD/MM/YYYY h:m:s a",
           useCurrent: false,
@@ -202,19 +200,25 @@ import Calendar from 'primevue/calendar';
           }
         })
           .then(response => {
-            this.country = ''
-            this.city = ''
-            this.organization = ''
-            this.startDate = ''
-            this.endDate = ''
-            this.goal = ''
-            this.userId = ''
-            this.expensesRequestList = []
-            this.success = 'Заявка была успешно добавлена'
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+              this.success = ''; // Очищаем успешное сообщение
+            } else {
+              this.country = ''
+              this.city = ''
+              this.organization = ''
+              this.startDate = ''
+              this.endDate = ''
+              this.goal = ''
+              this.userId = ''
+              this.expensesRequestList = []
+              this.success = 'Заявка была успешно добавлена'
+            }
           })
           .catch(error => {
             if (error.response.status === 400) {
-              data.error = error.response.message
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
             }
           });
       },
@@ -244,7 +248,6 @@ import Calendar from 'primevue/calendar';
       })
         .then(response => {
           this.users = response.data;
-          this.admin = this.findAdminUsername();
         })
         .catch(error => {
           console.error(error);

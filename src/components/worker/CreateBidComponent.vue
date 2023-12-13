@@ -55,26 +55,20 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Начало командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" v-model="startDate"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div>
+                      <label for="datepicker">Выберите стартовую дату:</label>
+                      <input type="date" v-model="startDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Окончание командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" v-model="endDate" class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div>
+                      <label for="datepicker">Выберите конечную дату:</label>
+                      <input type="date" v-model="endDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Цель</label>
-                    <input type="position" class="form-control" id="inputPosition"
+                    <input type="text" class="form-control" id="inputPosition"
                       placeholder="Цель командировки" v-model="goal" required>
                   </div>
 
@@ -112,6 +106,11 @@
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <h5><i class="icon fas fa-check"></i>Заявка была успешно добавлена</h5>
               </div>
+              <div class="alert alert-danger" v-if="error !== ''">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <!-- Блок ошибок -->
+                <span>{{ error }}</span>
+              </div>
             </div>
             </div>
             <div class="col-md-4">
@@ -139,6 +138,7 @@ import '@fortawesome/fontawesome-free/js/all.js';
         startDate: '',
         endDate: '',
         goal: '',
+        error: '',
         expensesRequestList: [
           { name: '', price: null }
         ],

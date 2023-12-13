@@ -59,11 +59,9 @@
                   <h5><i class="icon fas fa-check"></i> Пароль был успешно изменён</h5>
             </div>
             <!-- Блок ошибок -->    
-            <div v-if="errors.length > 0" class="alert alert-danger">
+            <div v-if="error !== ''" class="alert alert-danger">
               <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                <ul>
-                  <li v-for="error in errors" :key="error">{{ error }}</li>
-                </ul>
+              <h5><i class="icon fas fa-check"></i> {{error}}</h5>
             </div>
             </div>
             <div class="col-md-4">
@@ -85,7 +83,7 @@
         oldPassword: '',
         newPassword: '',
         success: '',
-        errors: []
+        error: ''
       }
     },
     methods: {
@@ -106,17 +104,17 @@
         })
         .then(response => {
             if (response.data.message) {
-              this.errors = [response.data.message]; // Заменяем текущий массив сообщений новым сообщением
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
               this.success = ''; // Очищаем успешное сообщение
             } else {
               this.success = 'Пароль был успешно изменён';
-              this.errors = []; // Очищаем массив ошибок, так как операция прошла успешно
+              this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
             }
           }
         )
           .catch(error => {
             if (error.response.status === 400) {
-              this.errors = error.response.data.errors; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.error = error.response.data.errors; // Заменяем текущий массив ошибок новым массивом ошибок
               this.success = ''; // Очищаем успешное сообщение
             }
           })

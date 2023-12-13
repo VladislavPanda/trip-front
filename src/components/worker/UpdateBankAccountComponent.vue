@@ -52,43 +52,12 @@
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <h5><i class="icon fas fa-check"></i> Данные были успешно отредактированы</h5>
                 </div>
+                <div v-if="error !== ''" class="alert alert-danger">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-check"></i> {{error}}</h5>
+                </div>
             </div>
             </div>
-            <!--<div class="col-md-4">
-              <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title"></h3>
-              </div>
-              <form @submit.prevent="submitAddress">
-                <div class="card-body">
-                  <div class="form-group">
-                    <label for="inputName">Имя</label>
-                    <input type="text" class="form-control" id="inputName" 
-                      placeholder="Ваше имя" v-bind:value="name" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputSurname">Фамилия</label>
-                    <input type="text" class="form-control" id="inputSurname" 
-                      placeholder="Ваша фамилия" v-bind:value="surname" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPhone">Телефон</label>
-                    <input type="phone" class="form-control" id="inputPhone" 
-                      placeholder="Ваш телефон" v-bind:value="phone" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputPosition">Должность</label>
-                    <input type="position" class="form-control" id="inputPosition" 
-                      placeholder="Ваша должность" v-bind:value="position" required>
-                  </div>
-                </div>
-
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-              </form>
-              </div>
-            </div>-->
           </div>
           <!-- /.row (main row) -->
         </div><!-- /.container-fluid -->
@@ -103,7 +72,9 @@
     data() {
       return {
         bankAccount: '',
-        result: ''
+        result: '',
+        error: '',
+        success: ''
       };
     },
     methods: {
@@ -126,11 +97,19 @@
           })
             .then(response => {
               // localStorage.setItem('accountResponse', JSON.stringify(response.data))
-              this.result = 'Данные были успешно отредактированы'
-              this.bankAccount = ''
+              if (response.data.message) {
+                this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+                this.success = ''; // Очищаем успешное сообщение
+              } else {
+                this.success = 'Данные были успешно отредактированы'
+                this.bankAccount = ''
+              }
             })
             .catch(error => {
-              console.error(error);
+              if (error.response.status === 400) {
+                this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+                this.success = ''; // Очищаем успешное сообщение
+              }
             });
       },
       logout() {

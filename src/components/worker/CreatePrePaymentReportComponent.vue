@@ -33,12 +33,9 @@
               <form @submit.prevent="submitForm">
                 <div class="card-body">
                   <div class="form-group">
-                    <label>Авансовый отчёт от:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" v-model="date"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div>
+                      <label for="datepicker">Авансовый отчёт от:</label>
+                      <input type="date" v-model="date" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
@@ -66,7 +63,7 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputCity">Полученный аванс</label>
-                      <input type="text" class="form-control" id="inputCity"
+                      <input type="number" min="1" class="form-control" id="inputCity"
                         placeholder="Полученный аванс" v-model="prePaymentSum" required>
                     </div>
                   </div>
@@ -82,13 +79,13 @@
                   </div>
 
                 <div v-for="(expense, index) in expensesRequestList" :key="index">
-                    <input type="text" class="form-control" v-model="expense.date"
+                    <input type="date" class="form-control" v-model="expense.date"
                       placeholder="Дата">
                     <input type="number" class="form-control" v-model="expense.number"
                       placeholder="Номер" min="1">
-                      <input type="text" class="form-control" v-model="expense.name"
+                    <input type="text" class="form-control" v-model="expense.name"
                       placeholder="Наименование документа (расхода)">
-                      <input type="number" class="form-control" v-model="expense.sum"
+                    <input type="number" class="form-control" v-model="expense.sum"
                       placeholder="Сумма" min="1">
                     <br>
                     <br>
@@ -102,7 +99,12 @@
 
               <div v-if="success != ''" class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
-                  <h5><i class="icon fas fa-check"></i>Авансовый отчёт был успешно добавлен</h5>
+                  <h5><i class="icon fas fa-check"></i>Авансовый отчёт был успешно создан</h5>
+              </div>
+              <div class="alert alert-danger" v-if="error !== ''">
+                <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                <!-- Блок ошибок -->
+                <span>{{ error }}</span>
               </div>
             </div>
             </div>
@@ -169,17 +171,25 @@ import '@fortawesome/fontawesome-free/js/all.js';
           }
         })
           .then(response => {
-            this.date = ''
-            this.organization = ''
-            this.admin = ''
-            this.accountant = ''
-            this.prePaymentReportGoal = ''
-            this.prePaymentSum = ''
-            this.expensesRequestList = []
-            this.success = 'Авансовый отчёт был успешно добавлен'
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+              this.success = ''; // Очищаем успешное сообщение
+            } else {
+              this.date = ''
+              this.organization = ''
+              this.admin = ''
+              this.accountant = ''
+              this.prePaymentReportGoal = ''
+              this.prePaymentSum = ''
+              this.expensesRequestList = []
+              this.success = 'Авансовый отчёт был успешно добавлен'
+            }
           })
           .catch(error => {
-            console.error(error);
+            if (error.response.status === 400) {
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
+            }
           });
       },
       
