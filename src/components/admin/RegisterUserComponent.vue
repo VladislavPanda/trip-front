@@ -58,7 +58,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Должность</label>
-                    <input type="phone" class="form-control" id="inputPosition"
+                    <input type="text" class="form-control" id="inputPosition"
                       placeholder="Введите должность" v-model="position" required>
                   </div>
                   <div class="form-group">
@@ -134,18 +134,24 @@
           }
         })
           .then(response => {
-            this.error = ''
-            this.success = 'Пользователь был успешно добавлен'
-            this.name = ''
-            this.surname = ''
-            this.email = ''
-            this.phone = ''
-            this.position = ''
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+              this.success = ''; // Очищаем успешное сообщение
+            } else {
+              this.error = ''
+              this.success = 'Пользователь был успешно добавлен'
+              this.name = ''
+              this.surname = ''
+              this.email = ''
+              this.phone = ''
+              this.position = ''
+              this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
+            }
           })
           .catch(error => {
-            console.log(error.response)
             if (error.response.status === 400) {
-              this.error = error.response.data.message
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
             }
           })
       },

@@ -84,7 +84,7 @@
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Цель</label>
-                    <input type="position" v-model="goal" class="form-control" id="inputPosition" 
+                    <input type="text" v-model="goal" class="form-control" id="inputPosition" 
                       placeholder="Цель командировки" required>
                   </div>
 
@@ -114,6 +114,10 @@
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
               </form>
+              <div v-if="success != ''" class="alert alert-success alert-dismissible">
+                  <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                  <h5><i class="icon fas fa-check"></i>Заявка была успешно добавлена</h5>
+              </div>
               <div class="alert alert-danger" v-if="error !== ''">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                 <!-- Блок ошибок -->
@@ -140,15 +144,6 @@ import Calendar from 'primevue/calendar';
     components: {
     Calendar
   },
-  /*setup() {
-    const selectedDate = ref(null);
-    const datepicker = 'datepicker';  // Уникальный идентификатор для поля ввода
-
-    return {
-      selectedDate,
-      datepicker
-    };
-  },*/
     data() {
       return {
         country: '',
@@ -205,19 +200,25 @@ import Calendar from 'primevue/calendar';
           }
         })
           .then(response => {
-            this.country = ''
-            this.city = ''
-            this.organization = ''
-            this.startDate = ''
-            this.endDate = ''
-            this.goal = ''
-            this.userId = ''
-            this.expensesRequestList = []
-            this.success = 'Заявка была успешно добавлена'
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+              this.success = ''; // Очищаем успешное сообщение
+            } else {
+              this.country = ''
+              this.city = ''
+              this.organization = ''
+              this.startDate = ''
+              this.endDate = ''
+              this.goal = ''
+              this.userId = ''
+              this.expensesRequestList = []
+              this.success = 'Заявка была успешно добавлена'
+            }
           })
           .catch(error => {
             if (error.response.status === 400) {
-              data.error = error.response.message
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
             }
           });
       },

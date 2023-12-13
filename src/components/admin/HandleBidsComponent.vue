@@ -100,6 +100,11 @@
                         </tr>
                       </tbody>
                     </table>
+                    <div class="alert alert-danger" v-if="error !== ''">
+                      <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+                      <!-- Блок ошибок -->
+                      <span>{{ error }}</span>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -128,6 +133,7 @@
     data() {
       return {
         requests: [],
+        error: '',
         showAdditionalInfo: {}
       };
     },
@@ -145,7 +151,12 @@
           }
         })
           .then(response => {
-            this.requests = response.data;
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              this.requests = response.data;
+              this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
+            }
           })
           .catch(error => {
             console.error(error);
@@ -170,8 +181,11 @@
             'Authorization': `Bearer ${token}`
           }
           }).then(() => {
-            // Обновить страницу
-            window.location.reload();
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              window.location.reload();
+            }
           }).catch(error => {
             // Обработка ошибок
             console.error(error);
@@ -190,8 +204,11 @@
             'Authorization': `Bearer ${token}`
           }
         }).then(() => {
-            // Обновить страницу
-            window.location.reload();
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+                window.location.reload();
+            }
           }).catch(error => {
             // Обработка ошибок
             console.error(error);
@@ -210,8 +227,11 @@
             'Authorization': `Bearer ${token}`
           }
         }).then(() => {
-            // Обновить страницу
-            window.location.reload();
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              window.location.reload();
+            }
           }).catch(error => {
             // Обработка ошибок
             console.error(error);

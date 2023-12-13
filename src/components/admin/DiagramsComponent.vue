@@ -109,19 +109,21 @@ export default {
               'Authorization': `Bearer ${token}`
             }
           }).then(response => {
-        this.chartData.datasets[0].data = [];
-        this.chartData.labels = [];
-        this.chartData.labels = Object.keys(response.data);
+            this.chartData.datasets[0].data = [];
+            this.chartData.labels = [];
+            this.chartData.labels = Object.keys(response.data);
 
-        for (let key in response.data) {
-          this.chartData.datasets[0].data.push(response.data[key]);
-        }
+            for (let key in response.data) {
+              this.chartData.datasets[0].data.push(response.data[key]);
+            }
 
-        this.showChart1 = true;
-      }).catch(error => {
-                console.error(error);
-              }
-          );
+            this.showChart1 = true;
+          }).catch(error => {
+            if (error.response.status === 400) {
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
+            }
+        });
     }
   },
 }
