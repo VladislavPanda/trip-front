@@ -60,7 +60,7 @@
                     <div class="form-group">
                       <label for="inputOrganization">Организация</label>
                       <input type="text" class="form-control" id="inputOrganization" 
-                        placeholder="Организация" v-model="organisation" required>
+                        placeholder="Организация" v-model="organization" required>
                     </div>
                   </div>
                   <!--<div class="form-group">
@@ -71,22 +71,15 @@
                     </div>
                   </div>-->
                   <div class="form-group">
-                    <label>Начало командировки:</label>
-                    <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateStart">
-                      <div class="input-group-append" data-target="#reservationdateStart" data-toggle="datetimepicker">
-                        <Calendar v-model="startDate" inline showWeek />
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                    <div>
+                      <label for="datepicker">Выберите стартовую дату:</label>
+                      <input type="date" v-model="startDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Окончание командировки:</label>
-                    <div class="input-group date" id="reservationdateEnd" data-target-input="nearest">
-                      <input type="text" v-model="endDate" class="form-control datetimepicker-input" data-target="#reservationdateEnd">
-                      <div class="input-group-append" data-target="#reservationdateEnd" data-toggle="datetimepicker">
-                        <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                      </div>
+                    <div>
+                      <label for="datepicker">Выберите конечную дату:</label>
+                      <input type="date" v-model="endDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
@@ -105,7 +98,6 @@
                         <i class="fa fa-times fa-2x"></i>
                     </a>
                   </div>
-                  
                   <div v-for="(expense, index) in expensesRequestList" :key="index">
                     <input type="text" class="form-control" v-model="expense.name"
                       placeholder="Название траты" min="1">
@@ -142,23 +134,34 @@
 
 <script>
 import axios from 'axios'
-//import Calendar from 'primevue/calendar';
+import Calendar from 'primevue/calendar';
 
   export default {
+    components: {
+    Calendar
+  },
+  /*setup() {
+    const selectedDate = ref(null);
+    const datepicker = 'datepicker';  // Уникальный идентификатор для поля ввода
+
+    return {
+      selectedDate,
+      datepicker
+    };
+  },*/
     data() {
       return {
         country: '',
         startDate: '',
         endDate: '',
         city: '',
-        organisation: '',
+        organization: '',
         goal: '',
         error: '',
         userId: 'Выберите сотрудника',
         expensesRequestList: [
           { name: '', price: null }
         ],
-        date: new Date(),
         options: {
           format: "DD/MM/YYYY h:m:s a",
           useCurrent: false,
@@ -244,7 +247,6 @@ import axios from 'axios'
       })
         .then(response => {
           this.users = response.data;
-          this.admin = this.findAdminUsername();
         })
         .catch(error => {
           console.error(error);

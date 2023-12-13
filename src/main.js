@@ -10,11 +10,12 @@ import Paginate from 'vuejs-paginate'
 import "./assets/dist/css/adminlte.css"
 import { Bar } from 'vue-chartjs'
 import { Pie } from 'vue-chartjs'
-//import datePicker from 'vue-bootstrap-datetimepicker';
+/*import 'primevue/resources/primevue.min.css';
+import 'primeicons/primeicons.css';
+import 'primevue/resources/themes/saga-blue/theme.css';*/
 
 createApp(App)
     .use(store)
     .use(router)
-    //.use(datePicker)
     .component("font-awesome-icon", FontAwesomeIcon)
     .mount('#app')

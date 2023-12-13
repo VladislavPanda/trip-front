@@ -23,25 +23,19 @@
               <h3 class="card-title">Выбрать месяц командировки</h3>
             </div>
             <form @submit.prevent="submitDatesForm">
-                  <div class="card-body">
-                    <div class="form-group">
-                        <label>Стартовая дата:</label>
-                        <div class="input-group date" id="reservationdate">
-                            <input type="text" v-model="startDate" class="form-control" >
-                            <div class="input-group-append">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                      </div>
+                    <div class="card-body">
                       <div class="form-group">
-                        <label>Конечная дата:</label>
-                        <div class="input-group date" id="reservationdate">
-                            <input type="text" v-model="endDate"  class="form-control" >
-                            <div class="input-group-append">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
+                      <div>
+                        <label for="datepicker">Выберите стартовую дату:</label>
+                        <input type="date" v-model="startDate" class="form-control">
                       </div>
+                    </div>
+                    <div class="form-group">
+                      <div>
+                        <label for="datepicker">Выберите конечную дату:</label>
+                        <input type="date" v-model="endDate" class="form-control">
+                      </div>
+                    </div>
                     <div class="card-footer">
                       <button type="submit" class="btn btn-primary">Сгенерировать диаграмму</button>
                     </div>

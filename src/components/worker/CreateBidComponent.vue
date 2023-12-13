@@ -55,21 +55,15 @@
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Начало командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" v-model="startDate"  class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div>
+                      <label for="datepicker">Выберите стартовую дату:</label>
+                      <input type="date" v-model="startDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
-                    <label>Окончание командировки:</label>
-                    <div class="input-group date" id="reservationdate" data-target-input="nearest">
-                        <input type="text" v-model="endDate" class="form-control datetimepicker-input" data-target="#reservationdate">
-                        <div class="input-group-append" data-target="#reservationdate" data-toggle="datetimepicker">
-                            <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                        </div>
+                    <div>
+                      <label for="datepicker">Выберите конечную дату:</label>
+                      <input type="date" v-model="endDate" class="form-control">
                     </div>
                   </div>
                   <div class="form-group">
