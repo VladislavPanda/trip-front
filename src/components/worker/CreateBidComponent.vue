@@ -91,7 +91,7 @@
                       placeholder="Сумма" min="1">
                     <br>
                     <br>
-                    
+
                   </div>
                 </div>
 
@@ -102,7 +102,7 @@
                 </div>
               </form>
 
-              <div v-if="success != ''" class="alert alert-success alert-dismissible">
+              <div v-if="success !== ''" class="alert alert-success alert-dismissible">
                   <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
                   <h5><i class="icon fas fa-check"></i>Заявка была успешно добавлена</h5>
               </div>
@@ -188,11 +188,12 @@ import '@fortawesome/fontawesome-free/js/all.js';
           })
           .catch(error => {
             if (error.response.status === 400) {
-              data.error = error.response.message
+              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+              this.success = ''; // Очищаем успешное сообщение
             }
           });
       },
-      
+
       logout() {
         localStorage.clear(); // Очищаем localStorage
 

@@ -30,14 +30,14 @@
               </p>
             </a>
           </li>
-          <li class="nav-item">
-            <a href="#" class="nav-link">
-              <i class="nav-icon fas fa-copy"></i>
-              <p>
-                Отслеживание времени в командировке 
-              </p>
-            </a>
-          </li>
+<!--          <li class="nav-item">-->
+<!--            <a href="#" class="nav-link">-->
+<!--              <i class="nav-icon fas fa-copy"></i>-->
+<!--              <p>-->
+<!--                Отслеживание времени в командировке -->
+<!--              </p>-->
+<!--            </a>-->
+<!--          </li>-->
           <li class="nav-item">
             <a href="/worker/createPrePaymentReport" class="nav-link">
               <i class="nav-icon far fa-plus-square"></i>
@@ -58,7 +58,7 @@
             <a href="#" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Отчёты и документы
+                Просмотреть историю всех заявков на командировку
               </p>
             </a>
           </li>
