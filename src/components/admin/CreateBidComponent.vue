@@ -94,6 +94,27 @@
                     <input type="position" v-model="goal" class="form-control" id="inputPosition" 
                       placeholder="Цель командировки" required>
                   </div>
+
+                  <!-- Иконка "стрелка вниз" для добавления новой пары полей -->
+                  <h5>Расходы на командировку</h5>
+                  <div>
+                    <a href="#" @click.prevent="addNewExpenseField" style="margin-right: 300px;">
+                      <i class="fa fa-plus fa-2x"></i>
+                    </a>
+                    <a href="#" @click.prevent="removeExpenseField">
+                        <i class="fa fa-times fa-2x"></i>
+                    </a>
+                  </div>
+                  
+                  <div v-for="(expense, index) in expensesRequestList" :key="index">
+                    <input type="text" class="form-control" v-model="expense.name"
+                      placeholder="Название траты" min="1">
+                    <input type="number" class="form-control" v-model="expense.price"
+                      placeholder="Сумма" min="1">
+                    <br>
+                    <br>
+                    
+                  </div>
                 </div>
                 <!-- /.card-body -->
 
@@ -134,6 +155,9 @@ import Calendar from 'primevue/calendar';
         goal: '',
         error: '',
         userId: 'Выберите сотрудника',
+        expensesRequestList: [
+          { name: '', price: null }
+        ],
         date: new Date(),
         options: {
           format: "DD/MM/YYYY h:m:s a",
@@ -193,6 +217,12 @@ import Calendar from 'primevue/calendar';
               data.error = error.response.message
             }
           });
+      },
+      addNewExpenseField() {
+        this.expensesRequestList.push({ name: '', price: null });
+      },
+      removeExpenseField() {
+        this.expensesRequestList.pop();
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage

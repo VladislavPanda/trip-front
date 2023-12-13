@@ -187,7 +187,9 @@ import '@fortawesome/fontawesome-free/js/all.js';
             this.success = 'Заявка была успешно добавлена'
           })
           .catch(error => {
-            console.error(error);
+            if (error.response.status === 400) {
+              data.error = error.response.message
+            }
           });
       },
       
