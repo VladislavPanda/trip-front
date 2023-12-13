@@ -130,17 +130,8 @@
         }).then(response => {
           
         }).catch(error => {
-        
-        });
-
-        const data1 = {"value": 123, "value1": 456}
-          this.chartData.datasets[0].data = [];
-          this.chartData.labels = [];
-          this.chartData.labels = Object.keys(data1);
-
-          for (let key in data1) {
-            this.chartData.datasets[0].data.push(data1[key]);
           }
+        );
   
         this.showChart = true;
       }
