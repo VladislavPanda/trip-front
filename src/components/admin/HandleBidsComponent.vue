@@ -180,7 +180,7 @@
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-          }).then(() => {
+          }).then(response => {
             if (response.data.message) {
               this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
             } else {
@@ -203,7 +203,7 @@
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        }).then(() => {
+        }).then(response => {
             if (response.data.message) {
               this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
             } else {
@@ -226,7 +226,7 @@
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
-        }).then(() => {
+        }).then(response => {
             if (response.data.message) {
               this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
             } else {
