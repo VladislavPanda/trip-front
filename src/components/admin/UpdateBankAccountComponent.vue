@@ -119,6 +119,10 @@
         // Делаем редирект на определенный маршрут
         this.$router.push('/');
       }
+    },
+    mounted() {
+      console.log(JSON.parse(localStorage.getItem("accountResponse"))["bank_account"])
+      this.bankAccount = JSON.parse(localStorage.getItem("accountResponse"))["bank_account"];
     }
   }
 </script>

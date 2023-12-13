@@ -4,7 +4,7 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1 class="m-0">Вторая диаграмма</h1>
+            <h1 class="m-0">Количество денежных средств, потраченных в командировке за период</h1>
           </div><!-- /.col -->
           <ul class="nav nav-pills ml-auto">
             <li class="nav-item">

@@ -59,7 +59,7 @@
             <a href="/admin/diagrams/first" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Первая диаграмма
+                Количестов дней, проведенных в командировке (Диграмма)
               </p>
             </a>
           </li>
@@ -67,7 +67,7 @@
             <a href="/admin/diagrams/second" class="nav-link">
               <i class="nav-icon fas fa-th"></i>
               <p>
-                Вторая диаграмма
+                Средства, затраченные в командировке (Диграмма)
               </p>
             </a>
           </li>
