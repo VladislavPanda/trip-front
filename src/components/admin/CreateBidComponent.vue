@@ -35,23 +35,32 @@
                 <div class="card-body">
                   <div class="form-group">
                     <div class="form-group">
+                      <label for="inputOrganization">Сотрудник</label>
+                      <select class="form-control" name="accountant" v-model="userId" required>
+                        <option disabled>Выберите сотрудника</option>
+                        <option v-for="user in workerUsers" :value="user.id">{{ user.name }} {{ user.surname }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                    <div class="form-group">
                       <label for="inputCountry">Страна</label>
                       <input type="text" class="form-control" id="inputCountry" 
-                        placeholder="Страна командировки" v-bind:value="country" required>
+                        placeholder="Страна командировки" v-model="country" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputCity">Город</label>
                       <input type="text" class="form-control" id="inputCity" 
-                        placeholder="Город командировки" v-bind:value="city" required>
+                        placeholder="Город командировки" v-model="city" required>
                     </div>
                   </div>
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputOrganization">Организация</label>
                       <input type="text" class="form-control" id="inputOrganization" 
-                        placeholder="Организация" v-bind:value="organisation" required>
+                        placeholder="Организация" v-model="organisation" required>
                     </div>
                   </div>
                   <!--<div class="form-group">
@@ -66,7 +75,7 @@
                     <div class="input-group date" id="reservationdateStart" data-target-input="nearest">
                       <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateStart">
                       <div class="input-group-append" data-target="#reservationdateStart" data-toggle="datetimepicker">
-                        <Calendar v-model="date" inline showWeek />
+                        <Calendar v-model="startDate" inline showWeek />
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
                     </div>
@@ -74,7 +83,7 @@
                   <div class="form-group">
                     <label>Окончание командировки:</label>
                     <div class="input-group date" id="reservationdateEnd" data-target-input="nearest">
-                      <input type="text" class="form-control datetimepicker-input" data-target="#reservationdateEnd">
+                      <input type="text" v-model="endDate" class="form-control datetimepicker-input" data-target="#reservationdateEnd">
                       <div class="input-group-append" data-target="#reservationdateEnd" data-toggle="datetimepicker">
                         <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                       </div>
@@ -82,18 +91,8 @@
                   </div>
                   <div class="form-group">
                     <label for="inputPosition">Цель</label>
-                    <input type="position" class="form-control" id="inputPosition" 
-                      placeholder="Цель командировки" v-bind:value="position" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputAddress">Фамилия</label>
-                    <input type="address" class="form-control" id="inputAddress" 
-                      placeholder="Фамилия" v-bind:value="address" required>
-                  </div>
-                  <div class="form-group">
-                    <label for="inputAddress">Имя</label>
-                    <input type="address" class="form-control" id="inputAddress" 
-                      placeholder="Имя" v-bind:value="address" required>
+                    <input type="position" v-model="goal" class="form-control" id="inputPosition" 
+                      placeholder="Цель командировки" required>
                   </div>
                 </div>
                 <!-- /.card-body -->
@@ -128,7 +127,13 @@ import Calendar from 'primevue/calendar';
     data() {
       return {
         country: '',
+        startDate: '',
+        endDate: '',
+        city: '',
+        organisation: '',
+        goal: '',
         error: '',
+        userId: 'Выберите сотрудника',
         date: new Date(),
         options: {
           format: "DD/MM/YYYY h:m:s a",
@@ -145,6 +150,7 @@ import Calendar from 'primevue/calendar';
             close: "far fa-times-circle",
           },
         },
+        users: []
       };
     },
     methods: {
@@ -158,6 +164,7 @@ import Calendar from 'primevue/calendar';
           endDate: this.endDate,
           goal: this.goal,
           expensesRequestList: this.expensesRequestList,
+          userId: this.userId
         };
 
         const token = localStorage.getItem('token')
@@ -177,6 +184,7 @@ import Calendar from 'primevue/calendar';
             this.startDate = ''
             this.endDate = ''
             this.goal = ''
+            this.userId = ''
             this.expensesRequestList = []
             this.success = 'Заявка была успешно добавлена'
           })
@@ -194,12 +202,26 @@ import Calendar from 'primevue/calendar';
       }
     },
     mounted() {
+      const token = localStorage.getItem('token');
       const storedData = localStorage.getItem('accountResponse');
+      const users = [];
+      
+      axios.get('http://localhost:8400/account/getAllUsers', {
+        headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+        }
+      })
+        .then(response => {
+          this.users = response.data;
+          this.admin = this.findAdminUsername();
+        })
+        .catch(error => {
+          console.error(error);
+        });
 
       if (storedData) {
-        const data = JSON.parse(storedData);
-        this.name = data.name
-        this.surname = data.surname
+        const data = JSON.parse(storedData)
         this.email = data.email,
         this.token = data.token,
         this.phone = data.phone,
@@ -207,6 +229,11 @@ import Calendar from 'primevue/calendar';
         this.bank_account = data.bank_account,
         this.address = data.address,
         this.avatar = data.avatar
+      }
+    },
+    computed: {
+      workerUsers() {
+        return this.users.filter(user => user.role === 'WORKER');
       }
     }
   }
