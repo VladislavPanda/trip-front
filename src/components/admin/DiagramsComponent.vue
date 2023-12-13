@@ -118,10 +118,7 @@ export default {
         }
 
         this.showChart1 = true;
-      }).catch(error => {
-                console.error(error);
-              }
-          );
+      }).catch(error => {console.error(error);});
     }
   },
 }

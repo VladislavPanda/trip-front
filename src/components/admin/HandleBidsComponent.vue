@@ -210,28 +210,29 @@
             'Authorization': `Bearer ${token}`
           }
         }).then(() => {
-            // Обновить страницу
             window.location.reload();
           }).catch(error => {
-            // Обработка ошибок
             console.error(error);
           }
         )
       },
       downloadFile(filepath) {
+        const data = {
+          filePath: filepath,
+        };
         const token = localStorage.getItem('token')
         
-        axios.get('http://localhost:8400/file', {
+        axios.post('http://localhost:8400/file' , data,  {
           headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
           }
         })
           .then(response => {
-            const blob = new Blob([response.data], {type: 'application/html'})
+            const blob = new Blob([response.data], {type: 'application/pdf'})
             const link = document.createElement('a')
             link.href = URL.createObjectURL(blob)
-            link.download = "filename.html"
+            link.download = "filename.pdf"
             link.click()
             URL.revokeObjectURL(link.href)
           })

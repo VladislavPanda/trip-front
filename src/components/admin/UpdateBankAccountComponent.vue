@@ -127,7 +127,7 @@
             .then(response => {
               // localStorage.setItem('accountResponse', JSON.stringify(response.data))
               this.result = 'Данные были успешно отредактированы'
-              this.bankAccount = ''
+              this.bankAccount = response.data.bankAccount
             })
             .catch(error => {
               console.error(error);
@@ -138,7 +138,11 @@
   
         // Делаем редирект на определенный маршрут
         this.$router.push('/');
-      }
+      },
+    },
+    mounted() {
+      console.log(JSON.parse(localStorage.getItem('accountResponse'))['bank_account'])
+      this.bankAccount = JSON.parse(localStorage.getItem('accountResponse'))['bank_account']
     }
   }
 </script>
