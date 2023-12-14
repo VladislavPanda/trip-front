@@ -20,10 +20,10 @@
         <!-- /.row -->
         <!-- Main row -->
         <div class="row">
-          <div class="col-md-4">
+          <!--<div class="col-md-4">
 
-          </div>
-          <div class="col-md-4">
+          </div>-->
+          <div class="col-md-12">
             <div class="card card-primary">
               <div class="card-header">
                 <h3 class="card-title"></h3>
@@ -31,6 +31,75 @@
               <!-- /.card-header -->
               <!-- form start -->
               <form @submit.prevent="submitForm" enctype="multipart/form-data">
+  <div class="card-body">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="datepicker">Авансовый отчёт от:</label>
+        <input type="date" v-model="date" class="form-control">
+      </div>
+
+      <div class="form-group">
+        <label for="inputCity">Наименование организации</label>
+        <input type="text" class="form-control" id="inputCity" placeholder="Наименование организации" v-model="organization" required>
+      </div>
+
+      <div class="form-group">
+        <label for="inputOrganization">Бухгалтер</label>
+        <select class="form-control" name="accountant" v-model="accountantId">
+          <option v-for="user in managerUsers" :value="user.id">{{ user.name }}</option>
+        </select>
+      </div>
+
+      <div class="form-group">
+        <label for="inputCity">Назначение аванса</label>
+        <input type="text" class="form-control" id="inputCity" placeholder="Назначение аванса" v-model="prePaymentReportGoal" required>
+      </div>
+
+      <div class="form-group">
+        <label for="inputCity">Полученный аванс</label>
+        <input type="number" min="1" class="form-control" id="inputCity" placeholder="Полученный аванс" v-model="prePaymentSum" required>
+      </div>
+    </div>
+
+    <h5>Расходы на командировку</h5>
+    <div>
+                    <a href="#" @click.prevent="addNewExpenseField" style="margin-right: 300px;">
+                      <i class="fa fa-plus fa-2x"></i>
+                    </a>
+                    <a href="#" @click.prevent="removeExpenseField">
+                      <i class="fa fa-times fa-2x"></i>
+                    </a>
+                  </div>
+    <div v-for="(expense, index) in expensesRequestList" :key="index">
+      <div class="form-row">
+        <div class="form-group">
+          <input type="date" class="form-control" v-model="expense.date" placeholder="Дата">
+        </div>
+
+        <div class="form-group">
+          <input type="text" class="form-control" v-model="expense.name" placeholder="Наименование документа (расхода)">
+        </div>
+
+        <div class="form-group">
+          <input type="number" class="form-control" v-model="expense.sum" placeholder="Сумма" min="1">
+        </div>
+
+        <div class="form-group file-input">
+          <label class="file-input-label">
+            <span class="file-input-text">Выберите файл</span>
+            <input type="file" @change="handleFileChange($event, expense)">
+          </label>
+        </div>
+      </div>
+      <br>
+    </div>
+  </div>
+  <!-- /.card-body -->
+  <div class="card-footer">
+    <button type="submit" class="btn btn-primary">Сохранить</button>
+  </div>
+  </form>
+              <!--<form @submit.prevent="submitForm" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
                     <div>
@@ -91,11 +160,10 @@
                     <br>
                   </div>
                 </div>
-                <!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Сохранить</button>
                 </div>
-              </form>
+              </form>-->
 
               <div v-if="success != ''" class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -108,9 +176,9 @@
               </div>
             </div>
           </div>
-          <div class="col-md-4">
+          <!--<div class="col-md-4">
 
-          </div>
+          </div>-->
         </div>
         <!-- /.row (main row) -->
       </div><!-- /.container-fluid -->
@@ -133,7 +201,7 @@ export default {
       prePaymentReportGoal: '',
       prePaymentSum: '',
       expensesRequestList: [
-        {date: '', number: '', name: '', sum: null}
+        {date: '', name: '', sum: null}
       ],
       showAdditionalFields: false,
       success: '',
@@ -286,5 +354,50 @@ export default {
 </script>
 
 <style>
+.form-row {
+  display: flex;
+  flex-wrap: wrap;
+}
 
+.form-row > .form-group {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.file-input {
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.file-input input[type="file"] {
+  position: absolute;
+  left: 0;
+  top: 0;
+  opacity: 0;
+  width: 100%;
+  height: 100%;
+  cursor: pointer;
+}
+
+.file-input-label {
+  display: inline-block;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: #fff;
+  cursor: pointer;
+}
+
+.file-input-label:hover {
+  background-color: #0056b3;
+}
+
+.file-input-text {
+  display: inline-block;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 200px;
+  vertical-align: middle;
+}
 </style>
