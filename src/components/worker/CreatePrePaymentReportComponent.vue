@@ -30,7 +30,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form @submit.prevent="submitForm">
+              <form @submit.prevent="submitForm" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
                     <div>
@@ -67,9 +67,8 @@
                         placeholder="Полученный аванс" v-model="prePaymentSum" required>
                     </div>
                   </div>
-                </div>
-
-                <div>
+                  <h5>Расходы на командировку</h5>
+                  <div>
                     <a href="#" @click.prevent="addNewExpenseField" style="margin-right: 300px;">
                       <i class="fa fa-plus fa-2x"></i>
                     </a>
@@ -78,7 +77,7 @@
                     </a>
                   </div>
 
-                <div v-for="(expense, index) in expensesRequestList" :key="index">
+                  <div v-for="(expense, index) in expensesRequestList" :key="index">
                     <input type="date" class="form-control" v-model="expense.date"
                       placeholder="Дата">
                     <input type="number" class="form-control" v-model="expense.number"
@@ -87,10 +86,11 @@
                       placeholder="Наименование документа (расхода)">
                     <input type="number" class="form-control" v-model="expense.sum"
                       placeholder="Сумма" min="1">
+                      <input type="file" class="form-control" @change="handleFileChange($event, expense)"
+                      placeholder="Выберите файл" min="1">
                     <br>
-                    <br>
-                    
                   </div>
+                </div>
                 <!-- /.card-body -->
                 <div class="card-footer">
                   <button type="submit" class="btn btn-primary">Сохранить</button>
@@ -137,10 +137,15 @@ import '@fortawesome/fontawesome-free/js/all.js';
         ],
         showAdditionalFields: false,
         success: '',
+        error: '',
         users: []
       };
     },
     methods: {
+      handleFileChange(event, expense) {
+        const file = event.target.files[0];
+        expense.cheque = file;
+      },
       addNewExpenseField() {
         this.expensesRequestList.push({ date: '', number: '', name: '', sum: null });
       },
