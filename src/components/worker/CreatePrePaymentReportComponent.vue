@@ -165,37 +165,69 @@ import '@fortawesome/fontawesome-free/js/all.js';
         };
 
         const token = localStorage.getItem('token')
+        const id = 1;
 
-        // Отправляем данные формы на сервер
-        axios.post('http://localhost:8400/trip', data,
-        {
+        const formData = new FormData();
+        formData.append('fileNames', JSON.stringify(["first", "second"]));
+        for (let file of this.formData.files) {
+          formData.append('files', file);
+        }
+        const expenseReportRequest = {
+          managerId: 123, // Замените на реальное значение
+          adminId: 456, // Замените на реальное значение
+          companyName: 'Example Company', // Замените на реальное значение
+          goalOfReport: 'Some goal', // Замените на реальное значение
+          amountOfMoney: 1000, // Замените на реальное значение
+          infoList: [
+            { expenseType: 'Type1', amount: 200 },
+            { expenseType: 'Type2', amount: 300 },
+            // Добавьте другие объекты ExpenseInfo по мере необходимости
+          ]
+        }
+        formData.append("body", JSON.stringify(expenseReportRequest));
+        console.log(formData)
+        axios.post('http://localhost:8400/expense-report/' + id, formData, {
           headers: {
-            //'Accept': 'application/json',
-            'Content-Type': 'application/json',
+            // 'Content-Type': 'multipart/form-data',
             'Authorization': `Bearer ${token}`
           }
-        })
-          .then(response => {
-            if (response.data.message) {
-              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
-              this.success = ''; // Очищаем успешное сообщение
-            } else {
-              this.date = ''
-              this.organization = ''
-              this.admin = ''
-              this.accountant = ''
-              this.prePaymentReportGoal = ''
-              this.prePaymentSum = ''
-              this.expensesRequestList = []
-              this.success = 'Авансовый отчёт был успешно добавлен'
-            }
-          })
-          .catch(error => {
-            if (error.response.status === 400) {
-              this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
-              this.success = ''; // Очищаем успешное сообщение
-            }
-          });
+        }).then(response => {
+          // Обработка успешного ответа
+        }).catch(error => {
+          // Обработка ошибки
+        });
+
+
+        // Отправляем данные формы на сервер
+        // axios.post('http://localhost:8400/trip', data,
+        // {
+        //   headers: {
+        //     'Accept': 'application/json',
+            // 'Content-Type': 'application/json',
+            // 'Authorization': `Bearer ${token}`
+          // }
+        // })
+        //   .then(response => {
+        //     if (response.data.message) {
+        //       this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+        //       this.success = ''; // Очищаем успешное сообщение
+        //     } else {
+        //       this.date = ''
+        //       this.organization = ''
+        //       this.admin = ''
+        //       this.accountant = ''
+        //       this.prePaymentReportGoal = ''
+        //       this.prePaymentSum = ''
+        //       this.expensesRequestList = []
+        //       this.success = 'Авансовый отчёт был успешно добавлен'
+        //     }
+        //   })
+        //   .catch(error => {
+        //     if (error.response.status === 400) {
+        //       this.error = error.response.data.message; // Заменяем текущий массив ошибок новым массивом ошибок
+        //       this.success = ''; // Очищаем успешное сообщение
+        //     }
+        //   });
       },
       
       logout() {
