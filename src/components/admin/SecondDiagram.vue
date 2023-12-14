@@ -53,6 +53,9 @@
               :data="chartData"
           />
         </div>
+        <div v-if="showChart" class="col-md-6">
+          <h4>Сумма средств, затраченных в командировке: {{ sum }}</h4>
+        </div>
       </div>
     </div>
   </div>
@@ -75,6 +78,7 @@ export default {
       showChart: false,
       startDate: '',
       endDate: '',
+      sum: 0,
       chartData: {
         labels: [],
         datasets: [
@@ -125,6 +129,7 @@ export default {
 
           for (let key in response.data) {
             this.chartData.datasets[0].data.push(response.data[key]);
+            this.sum += response.data[key]
           }
           this.showChart = true;
 

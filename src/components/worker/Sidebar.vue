@@ -55,10 +55,10 @@
 <!--            </a>-->
 <!--          </li>-->
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/worker/history" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Просмотреть историю всех заявков на командировку
+                Просмотреть историю всех заявок на командировку
               </p>
             </a>
           </li>

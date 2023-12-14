@@ -6,11 +6,11 @@
         <div class="container-fluid">
           <div class="row mb-2">
             <div class="col-sm-6">
-              <h1 class="m-0">Управление заявками</h1>
+              <h1 class="m-0">История заявок</h1>
             </div><!-- /.col -->
             <ul class="nav nav-pills ml-auto">
               <li class="nav-item">
-                <a class="nav-link active" style="margin-right:10px" href="/admin/changePassword">Генерация документа</a>
+                <a class="nav-link active" style="margin-right:10px" href="/worker/changePassword">Генерация документа</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="#" @click="logout" data-toggle="tab">Выход из аккаунта</a>
@@ -73,30 +73,6 @@
                               </div>
                             </td>
                           </tr>
-                          <td>
-                            <button type="button" class="btn btn-lg btn-primary"
-                              @click="downloadFile(request.filePath)">
-                              Скачать документ
-                            </button>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-success btn-lg"
-                              @click="accept(request.id)">
-                              Принять
-                            </button>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-lg btn-danger"
-                              @click="reject(request.id)">
-                              Отклонить
-                            </button>
-                          </td>
-                          <td>
-                            <button type="button" class="btn btn-lg btn-primary"
-                              @click="close(request.id)">
-                              Закрыть
-                            </button>
-                          </td>
                         </tr>
                       </tbody>
                     </table>
@@ -144,7 +120,7 @@
       fetchRequests() {
         const token = localStorage.getItem('token')
    
-        axios.get('http://localhost:8400/trip', {
+        axios.get('http://localhost:8400/account/history', {
           headers: {
               //'Accept': 'application/json',
               'Authorization': `Bearer ${token}`
@@ -169,97 +145,6 @@
         } else {
           this.showAdditionalInfo[requestId] = true;
         }
-      },
-      accept(requestId) {
-        const token = localStorage.getItem('token');
-        axios.post('http://localhost:8400/trip/' + requestId, {
-            status: 'Принята',
-            description: 'Ваша заявка была принята'
-          }, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-          }).then(response => {
-            if (response.data.message) {
-              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
-            } else {
-              window.location.reload();
-            }
-          }).catch(error => {
-            // Обработка ошибок
-            console.error(error);
-          }
-        );
-      },
-      reject(requestId) {
-        const token = localStorage.getItem('token')
-
-        axios.post('http://localhost:8400/trip/' + requestId, {
-          status: 'Отклонена',
-          description: 'Простите, но в данный момент мы не можем предоставить денежные средства для осуществления командировки'
-        }, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(response => {
-            if (response.data.message) {
-              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
-            } else {
-                window.location.reload();
-            }
-          }).catch(error => {
-            // Обработка ошибок
-            console.error(error);
-          }
-        )
-      }, 
-      close(requestId) {
-        const token = localStorage.getItem('token')
-        
-        axios.post('http://localhost:8400/trip/' + requestId, {
-          status: 'Закрыта',
-          description: 'Заявка на командировку была закрыта'
-        }, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(response => {
-            if (response.data.message) {
-              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
-            } else {
-              window.location.reload();
-            }
-          }).catch(error => {
-            // Обработка ошибок
-            console.error(error);
-          }
-        )
-      },
-      downloadFile(path) {
-        const dt = {
-          filePath: path
-        };
-        const token = localStorage.getItem('token')
-        
-        axios.post('http://localhost:8400/file', dt, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(response => {
-            const blob = new Blob([response.data], {type: 'application/pdf'})
-            const link = document.createElement('a')
-            link.href = URL.createObjectURL(blob)
-            link.download = "filename.pdf"
-            link.click()
-            URL.revokeObjectURL(link.href)
-          })
-          .catch(error => {
-            console.error(error);
-          });
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage

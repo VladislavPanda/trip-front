@@ -99,7 +99,7 @@
           });
       },
       getTakenBids (userId) {
-
+        this.$router.push({ name: 'managerRequests', query: { userId: userId }});
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage

@@ -28,6 +28,8 @@ import Diagrams from '../views/accountant/Diagrams'
 import AdminDiagrams from '../views/admin/AdminDiagrams'
 import CreatePrePaymentReport from '../views/worker/CreatePrePaymentReport'
 import SecondDiagram from '../views/admin/SecondDiagram'
+import History from '../views/worker/History'
+import ManagerRequests from '../views/admin/ManagerRequests'
 
 const routes = [
   {
@@ -229,6 +231,16 @@ const routes = [
     path: '/worker/createPrePaymentReport',
     //name: 'Item',
     component: CreatePrePaymentReport
+  },
+  {
+    path: '/worker/history',
+    //name: 'Item',
+    component: History
+  },
+  {
+    path: '/admin/managerRequests',
+    name: 'managerRequests',
+    component: ManagerRequests
   },
 ]
 
