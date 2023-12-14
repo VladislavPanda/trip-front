@@ -48,7 +48,7 @@
                   <div class="form-group">
                     <div class="form-group">
                       <label for="inputOrganization">Бухгалтер</label>
-                      <select class="form-control" name="accountant" v-model="accountant">
+                      <select class="form-control" name="accountant" v-model="accountantId">
                         <option v-for="user in managerUsers" :value="user.id">{{ user.name }}</option>
                       </select>
                     </div>
@@ -128,8 +128,8 @@ export default {
     return {
       date: '',
       organization: '',
-      admin: '',
-      accountant: '',
+      adminId: '',
+      accountantId: '',
       prePaymentReportGoal: '',
       prePaymentSum: '',
       expensesRequestList: [
@@ -182,16 +182,11 @@ export default {
       }
       formData.append('fileNames', jsonFiles);
       const body = {
-        managerId: 123, // Замените на реальное значение
-        adminId: 456, // Замените на реальное значение
-        companyName: 'Example Company', // Замените на реальное значение
-        goalOfReport: 'Some goal', // Замените на реальное значение
-        amountOfMoney: 1000, // Замените на реальное значение
-        infoList: [
-          {expenseType: 'Type1', amount: 200},
-          {expenseType: 'Type2', amount: 300},
-          // Добавьте другие объекты ExpenseInfo по мере необходимости
-        ]
+        managerId: this.accountantId, // Замените на реальное значение
+        companyName: this.organization, // Замените на реальное значение
+        goalOfReport: this.prePaymentReportGoal, // Замените на реальное значение
+        amountOfMoney: this.prePaymentSum, // Замените на реальное значение
+        infoList: this.expensesRequestList
       }
       const json = new Blob([JSON.stringify(body)], {
         type: 'application/json'
@@ -248,10 +243,6 @@ export default {
       // Делаем редирект на определенный маршрут
       this.$router.push('/');
     },
-    findAdminUsername() {
-      const adminUser = this.users.find(user => user.role === 'admin');
-      return adminUser ? adminUser.username : '';
-    }
   },
   mounted() {
     const storedData = localStorage.getItem('accountResponse');
@@ -267,7 +258,6 @@ export default {
     })
         .then(response => {
           this.users = response.data;
-          this.admin = this.findAdminUsername();
         })
         .catch(error => {
           console.error(error);
@@ -278,12 +268,12 @@ export default {
       this.name = data.name
       this.surname = data.surname
       this.email = data.email,
-          this.token = data.token,
-          this.phone = data.phone,
-          this.position = data.position,
-          this.bank_account = data.bank_account,
-          this.address = data.address,
-          this.avatar = data.avatar
+      this.token = data.token,
+      this.phone = data.phone,
+      this.position = data.position,
+      this.bank_account = data.bank_account,
+      this.address = data.address,
+      this.avatar = data.avatar
     }
   },
   computed: {
