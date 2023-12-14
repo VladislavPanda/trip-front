@@ -201,7 +201,7 @@ export default {
       prePaymentReportGoal: '',
       prePaymentSum: '',
       expensesRequestList: [
-        {date: '', name: '', sum: null}
+        {localDate: '', nameOfExpense: '', sum: null}
       ],
       showAdditionalFields: false,
       success: '',
