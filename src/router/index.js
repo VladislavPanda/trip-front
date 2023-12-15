@@ -30,7 +30,7 @@ import CreatePrePaymentReport from '../views/worker/CreatePrePaymentReport'
 import SecondDiagram from '../views/admin/SecondDiagram'
 import History from '../views/worker/History'
 import ManagerRequests from '../views/admin/ManagerRequests'
-import PrePaymentReports from '../views/admin/PrePaymentReports'
+import PrePaymentReports from '../views/accountant/PrePaymentReports'
 
 const routes = [
   {
