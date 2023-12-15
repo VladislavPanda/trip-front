@@ -43,8 +43,8 @@
                       </thead>
                       <tbody>
                         <tr v-for="request in requests" :key="request.id">
-                          <td>{{ request.FIO }}</td>
-                          <td>{{ request.dateOfCreated }}</td>
+                          <td>{{ request.fio }}</td>
+                          <td>{{ request.dataOfCreated }}</td>
                           <td>{{ request.status }}</td>
                           <td>
                             <button type="button" class="btn btn-lg btn-danger"
@@ -119,6 +119,7 @@
   export default {
     data() {
       return {
+        requestId: '',
         rejectReason: '',
         requests: [],
         error: '',
@@ -151,14 +152,14 @@
         });
       },
       reject(requestId) {
+        this.requestId = requestId;
         $('#rejectModal').modal('show');
       },
       submitReject(requestId) {
         const token = localStorage.getItem('token')
-
-        axios.post('http://localhost:8400/expense-report/' + requestId + '/Отклонён',
+        axios.post('http://localhost:8400/expense-report/' + this.requestId + '/Отклонен',
         {
-            reason: this.rejectReason
+            message: this.rejectReason
         },
         {
           headers: {
