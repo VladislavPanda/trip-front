@@ -55,10 +55,10 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="/accountant/prePaymentReports" class="nav-link">
               <i class="nav-icon fas fa-book"></i>
               <p>
-                Отчёты и документы
+                Список авансовых отчётов
               </p>
             </a>
           </li>
