@@ -60,7 +60,7 @@
                           </td>
                           <td>
                             <button type="button" class="btn btn-lg btn-primary"
-                              @click="downloadFile(request.filePath)">
+                              @click="downloadFile(request.id)">
                               Скачать чеки
                             </button>
                           </td>
@@ -199,28 +199,22 @@
           }
         )
       },
-      downloadFile(path) {
-        const dt = {
-          filePath: path
-        };
-        const token = localStorage.getItem('token')
-        
-        axios.post('http://localhost:8400/file', dt, {
-          headers: {
-            'Accept': 'application/json',
-            'Authorization': `Bearer ${token}`
-          }
-        }).then(response => {
-            const blob = new Blob([response.data], {type: 'application/pdf'})
-            const link = document.createElement('a')
-            link.href = URL.createObjectURL(blob)
-            link.download = "filename.pdf"
-            link.click()
-            URL.revokeObjectURL(link.href)
-          })
-          .catch(error => {
+      downloadFile(requestId) {
+        axios.get('http://localhost:8400/expense-report/files/' + requestId)
+        .then(response => {
+            const filesMap = response.data;
+            for (const [filename, fileBytes] of Object.entries(filesMap)) {
+                const blob = new Blob([fileBytes]);
+                const link = document.createElement('a');
+                link.href = window.URL.createObjectURL(blob);
+                link.download = filename;
+                link.click();
+            }
+        })
+        .catch(error => {
             console.error(error);
-          });
+        });
+
       },
       logout() {
         localStorage.clear(); // Очищаем localStorage
