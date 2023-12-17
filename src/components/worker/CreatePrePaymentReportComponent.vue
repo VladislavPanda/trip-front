@@ -73,11 +73,11 @@
     <div v-for="(expense, index) in expensesRequestList" :key="index">
       <div class="form-row">
         <div class="form-group">
-          <input type="date" class="form-control" v-model="expense.date" placeholder="Дата">
+          <input type="date" class="form-control" v-model="expense.localDate" placeholder="Дата">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control" v-model="expense.name" placeholder="Наименование документа (расхода)">
+          <input type="text" class="form-control" v-model="expense.nameOfExpense" placeholder="Наименование документа (расхода)">
         </div>
 
         <div class="form-group">
@@ -99,71 +99,7 @@
     <button type="submit" class="btn btn-primary">Сохранить</button>
   </div>
   </form>
-              <!--<form @submit.prevent="submitForm" enctype="multipart/form-data">
-                <div class="card-body">
-                  <div class="form-group">
-                    <div>
-                      <label for="datepicker">Авансовый отчёт от:</label>
-                      <input type="date" v-model="date" class="form-control">
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-group">
-                      <label for="inputCity">Наименование организации</label>
-                      <input type="text" class="form-control" id="inputCity"
-                             placeholder="Наименование организации" v-model="organization" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-group">
-                      <label for="inputOrganization">Бухгалтер</label>
-                      <select class="form-control" name="accountant" v-model="accountantId">
-                        <option v-for="user in managerUsers" :value="user.id">{{ user.name }}</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-group">
-                      <label for="inputCity">Назначение аванса</label>
-                      <input type="text" class="form-control" id="inputCity"
-                             placeholder="Назначение аванса" v-model="prePaymentReportGoal" required>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <div class="form-group">
-                      <label for="inputCity">Полученный аванс</label>
-                      <input type="number" min="1" class="form-control" id="inputCity"
-                             placeholder="Полученный аванс" v-model="prePaymentSum" required>
-                    </div>
-                  </div>
-                  <h5>Расходы на командировку</h5>
-                  <div>
-                    <a href="#" @click.prevent="addNewExpenseField" style="margin-right: 300px;">
-                      <i class="fa fa-plus fa-2x"></i>
-                    </a>
-                    <a href="#" @click.prevent="removeExpenseField">
-                      <i class="fa fa-times fa-2x"></i>
-                    </a>
-                  </div>
 
-                  <div v-for="(expense, index) in expensesRequestList" :key="index">
-                    <input type="date" class="form-control" v-model="expense.date"
-                           placeholder="Дата">
-                    <input type="number" class="form-control" v-model="expense.number"
-                           placeholder="Номер" min="1">
-                    <input type="text" class="form-control" v-model="expense.name"
-                           placeholder="Наименование документа (расхода)">
-                    <input type="number" class="form-control" v-model="expense.sum"
-                           placeholder="Сумма" min="1">
-                    <input type="file" class="form-control" @change="handleFileChange($event, expense)"
-                           placeholder="Выберите файл" min="1">
-                    <br>
-                  </div>
-                </div>
-                <div class="card-footer">
-                  <button type="submit" class="btn btn-primary">Сохранить</button>
-                </div>
-              </form>-->
 
               <div v-if="success != ''" class="alert alert-success alert-dismissible">
                 <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -219,7 +155,7 @@ export default {
       // expense.cheque = file;
     },
     addNewExpenseField() {
-      this.expensesRequestList.push({date: '', number: '', name: '', sum: null});
+      this.expensesRequestList.push({localDate: '', nameOfExpense: '', sum: null});
     },
     removeExpenseField() {
       this.expensesRequestList.pop();
