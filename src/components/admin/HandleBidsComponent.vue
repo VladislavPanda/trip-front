@@ -317,7 +317,7 @@
         
         axios.post('http://localhost:8400/file', dt, {
           headers: {
-            'Accept': 'application/json',
+            'Accept': 'application/pdf',
             'Authorization': `Bearer ${token}`
           }
         }).then(response => {

@@ -51,8 +51,25 @@
                         <td>{{ request.startDate }}</td>
                         <td>{{ request.endDate }}</td>
                         <td>{{ request.goal }}</td>
-                        <td>{{ request.status }}</td>
-                        <td>Проживание: 200, транспорт: 50</td>
+                        <td>
+                          <span v-if="request.status === 'ACCEPTED'">Принята</span>
+                          <span v-else-if="request.status === 'REJECTED'">Отклонена</span>
+                          <span v-else-if="request.status === 'CLOSED'">Закрыта</span>
+                          <span v-else>Создана</span>
+                        </td>
+                        <tr>
+                          <td :colspan="2">
+                            <div>
+                                <span @click="showAdditionalInfo[request.id] = !showAdditionalInfo[request.id]">
+                                  <i :class="showAdditionalInfo[request.id] ? 'fa fa-chevron-down' : 'fa fa-chevron-right'"></i>
+                                </span>
+                            </div>
+                            <div v-show="showAdditionalInfo[request.id]"
+                                 v-for="expenseList in request.expensesList">
+                              <span>{{ expenseList.name }}: {{ expenseList.price }}</span><br>
+                            </div>
+                          </td>
+                        </tr>
                         <td>
                           <button type="button" class="btn btn-success btn-lg"
                                   @click="take(request.id)">
@@ -60,22 +77,15 @@
                           </button>
                         </td>
                       </tr>
-<!--                      <button  @click="getFile()">Download file</button>-->
-  
                       </tbody>
                     </table>
                   </div>
                 </div>
               </div>
-              <!-- /.card-body -->
             </section>
-            <!-- /.Left col -->
           </div>
-          <!-- /.row (main row) -->
-        </div><!-- /.container-fluid -->
+        </div>
       </section>
-  
-      <!-- /.content -->
     </div>
   </template>
   
@@ -87,7 +97,8 @@
     data() {
       return {
         requests: [],
-        file: ''
+        file: '',
+        showAdditionalInfo: {}
       };
     },
     mounted() {
@@ -95,10 +106,18 @@
       // this.getFile();
     },
     methods: {
+      toggleAdditionalInfo(requestId) {
+        // При клике на стрелку, переключаем значение флага для конкретной заявки
+        if (this.showAdditionalInfo[requestId]) {
+          this.showAdditionalInfo[requestId] = false;
+        } else {
+          this.showAdditionalInfo[requestId] = true;
+        }
+      },
       fetchRequests() {
         const token = localStorage.getItem('token')
-  
-        axios.get('http://localhost:8400/manager/accepted-requests', {
+        const storedData = JSON.parse(localStorage.getItem('accountResponse'))
+          axios.get('http://localhost:8400/manager/trips/' + storedData["id"], {
           headers: {
             'Accept': 'application/json',
             'Authorization': `Bearer ${token}`
