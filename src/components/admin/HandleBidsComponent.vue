@@ -33,6 +33,23 @@
               <div class="card">
                 <div class="card-header">
                   <div class="card-body table-responsive p-0">
+                    <div style="margin-bottom: 20px; display: flex; align-items: center;">
+                      <button type="button" class="btn btn-lg btn-primary" style="margin-right: 20px;" @click="filter()">
+                        Фильтрация (статусы)
+                      </button>
+                      <div class="row">
+                        <div class="col-md-12">
+                          <form style="width: 100%;">
+                            <div class="form-group" style="margin-bottom: 0;">
+                              <div style="display: flex;">
+                                <input type="text" class="form-control" id="reason" placeholder="Найти город" v-model="citySearch">
+                                <button type="button" class="btn btn-secondary" @click="search(citySearch)" data-dismiss="modal">Применить</button>
+                              </div>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
                     <table class="table table-hover text-nowrap">
                       <thead>
                         <tr>
@@ -47,7 +64,11 @@
                         </tr>
                       </thead>
                       <tbody>
-                        <tr v-for="request in requests" :key="request.id">
+                        <tr v-for="request in (
+                              filterStatus === 'Выберите статус' && citySearch === ''
+                              ? allRequests 
+                              : requests
+                            )" :key="request.id">
                           <td>{{ request.country }}</td>
                           <td>{{ request.city }}</td>
                           <td>{{ request.organization }}</td>
@@ -99,6 +120,8 @@
                           </td>
                         </tr>
                       </tbody>
+
+                      
                     </table>
                     <div class="alert alert-danger" v-if="error !== ''">
                       <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
@@ -117,6 +140,36 @@
       </section>
       <!-- /.content -->
     </div>
+    <!-- Модальное окно фильтрации -->
+    <div class="modal fade" id="filterModal" tabindex="-1" role="dialog" aria-labelledby="rejectModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="rejectModalLabel">Фильтрация по статусам</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form>
+              <div class="form-group">
+                <!--<label for="reason">Выберите статус</label>-->
+                <select class="form-control" v-model="filterStatus" required>
+                  <option disabled>Выберите статус</option>
+                  <option value="ACCEPTED">Принята</option>
+                  <option value="REJECTED">Отклонёна</option>
+                  <option value="CLOSED">Закрыта</option>
+                </select>
+              </div>
+            </form>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-secondary" @click="filterSubmit()" data-dismiss="modal">Применить</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal">Отмена</button>
+          </div>
+        </div>
+      </div>
+    </div>
   </template>
 
 <style>
@@ -132,35 +185,53 @@
   export default {
     data() {
       return {
-        requests: [],
+        requests: [], // Отфильтрованные заявки
+        allRequests: [], // Все заявки
         error: '',
-        showAdditionalInfo: {}
+        showAdditionalInfo: {},
+        filterStatus: 'Выберите статус',
+        citySearch: ''
       };
     },
     mounted() {
       this.fetchRequests();
     },
     methods: {
+      filter() {
+        this.citySearch = ''
+        $('#filterModal').modal('show');
+      },
+      filterSubmit() {
+        this.requests = this.allRequests.filter(request => request.status === this.filterStatus)
+      },
+      search(city) {
+        this.citySearch = city
+        this.requests = this.allRequests.filter(request =>
+          request.city && this.citySearch && request.city.toLowerCase().includes(this.citySearch.toLowerCase())
+        );
+      },
       fetchRequests() {
         const token = localStorage.getItem('token')
    
-        axios.get('http://localhost:8400/trip', {
-          headers: {
-              //'Accept': 'application/json',
-              'Authorization': `Bearer ${token}`
-          }
-        })
-          .then(response => {
-            if (response.data.message) {
-              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
-            } else {
-              this.requests = response.data;
-              this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
+        //if (this.filterStatus !== '') {
+          axios.get('http://localhost:8400/trip', {
+            headers: {
+                //'Accept': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
           })
-          .catch(error => {
-            console.error(error);
-        });
+            .then(response => {
+              if (response.data.message) {
+                this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+              } else {
+                this.allRequests = response.data;
+                this.error = ''; // Очищаем массив ошибок, так как операция прошла успешно
+              }
+            })
+            .catch(error => {
+              console.error(error);
+          });
+        //}
       },
       toggleAdditionalInfo(requestId) {
         // При клике на стрелку, переключаем значение флага для конкретной заявки
