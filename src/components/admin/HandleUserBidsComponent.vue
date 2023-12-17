@@ -103,7 +103,7 @@
       fetchUsers() {
         const token = localStorage.getItem('token')
         //accountResponse = localStorage.getItem('accountResponse')
-        axios.get('http://localhost/getUsers.php', { // http://localhost:8400/account/getAllUsers
+        axios.get('http://localhost:8400/account/getAllUsers', { // http://localhost:8400/account/getAllUsers
           headers: {
               'Accept': 'application/json',
               'Authorization': `Bearer ${token}`
@@ -120,9 +120,9 @@
         const token = localStorage.getItem('token')
         //const authResponseDataArr = JSON.parse(authResponseData)
   
-        axios.post('http://localhost/ban.php', { // http://localhost:8400/account/status
+        axios.post('http://localhost:8400/account/status', { // http://localhost:8400/account/status
           id: userId,
-          active: false
+          isActive: false
         }, {
           headers: {
             'Accept': 'application/json',
@@ -145,9 +145,9 @@
       unBan (userId) {
         const token = localStorage.getItem('token')
   
-        axios.post('http://localhost/unBan.php', { // http://localhost:8400/account/status
+        axios.post('http://localhost:8400/account/status', { // http://localhost:8400/account/status
           id: userId,
-          active: true
+          isActive: true
         },
         {
           headers: {
@@ -169,7 +169,7 @@
       },
       changeRole(userId, currentRole) {
         const token = localStorage.getItem('token')
-        axios.put('http://localhost/changeRole.php', { // http://localhost:8400/account/role
+        axios.put('http://localhost:8400/account/role', { // http://localhost:8400/account/role
           id: userId,
           role: currentRole
         }, {

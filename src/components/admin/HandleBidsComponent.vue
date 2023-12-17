@@ -319,7 +319,7 @@
           headers: {
             'Accept': 'application/pdf',
             'Authorization': `Bearer ${token}`
-          }
+          },  responseType: 'arraybuffer',
         }).then(response => {
             const blob = new Blob([response.data], {type: 'application/pdf'})
             const link = document.createElement('a')

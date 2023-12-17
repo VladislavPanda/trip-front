@@ -35,7 +35,7 @@
     <div class="form-row">
       <div class="form-group">
         <label for="datepicker">Авансовый отчёт от:</label>
-        <input type="date" v-model="date" class="form-control">
+        <input required type="date" v-model="date" class="form-control">
       </div>
 
       <div class="form-group">
@@ -45,19 +45,19 @@
 
       <div class="form-group">
         <label for="inputOrganization">Бухгалтер</label>
-        <select class="form-control" name="accountant" v-model="accountantId">
+        <select  class="form-control" name="accountant" required v-model="accountantId">
           <option v-for="user in managerUsers" :value="user.id">{{ user.name }}</option>
         </select>
       </div>
 
       <div class="form-group">
         <label for="inputCity">Назначение аванса</label>
-        <input type="text" class="form-control" id="inputCity" placeholder="Назначение аванса" v-model="prePaymentReportGoal" required>
+        <input  type="text" class="form-control" id="inputCity" placeholder="Назначение аванса" v-model="prePaymentReportGoal" required>
       </div>
 
       <div class="form-group">
         <label for="inputCity">Полученный аванс</label>
-        <input type="number" min="1" class="form-control" id="inputCity" placeholder="Полученный аванс" v-model="prePaymentSum" required>
+        <input  type="number" min="1" class="form-control" id="inputCity" placeholder="Полученный аванс" v-model="prePaymentSum" required>
       </div>
     </div>
 
@@ -73,21 +73,21 @@
     <div v-for="(expense, index) in expensesRequestList" :key="index">
       <div class="form-row">
         <div class="form-group">
-          <input type="date" class="form-control" v-model="expense.localDate" placeholder="Дата">
+          <input required type="date" class="form-control" v-model="expense.localDate" placeholder="Дата">
         </div>
 
         <div class="form-group">
-          <input type="text" class="form-control" v-model="expense.nameOfExpense" placeholder="Наименование документа (расхода)">
+          <input required type="text" class="form-control" v-model="expense.nameOfExpense" placeholder="Наименование документа (расхода)">
         </div>
 
         <div class="form-group">
-          <input type="number" class="form-control" v-model="expense.sum" placeholder="Сумма" min="1">
+          <input required type="number" class="form-control" v-model="expense.sum" placeholder="Сумма" min="1">
         </div>
 
         <div class="form-group file-input">
           <label class="file-input-label">
             <span class="file-input-text">Выберите файл</span>
-            <input type="file" @change="handleFileChange($event, expense)">
+            <input required  type="file" @change="handleFileChange($event, expense)">
           </label>
         </div>
       </div>
@@ -203,6 +203,7 @@ export default {
           'Authorization': `Bearer ${token}`
         }
       }).then(response => {
+        this.success = "Авансовый отчет успешно создан."
         // Обработка успешного ответа
       }).catch(error => {
         // Обработка ошибки

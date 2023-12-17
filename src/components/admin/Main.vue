@@ -131,7 +131,7 @@ export default {
 
       axios.put('http://localhost:8400/account/status', {
         id: userId,
-        active: false
+            isActive: false
       }, {
         headers: {
           'Accept': 'application/json',
@@ -158,7 +158,7 @@ export default {
 
       axios.put('http://localhost:8400/account/status', {
         id: userId,
-        active: true
+        isActive: true
       },
       {
         headers: {
