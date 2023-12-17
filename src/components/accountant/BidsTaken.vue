@@ -72,6 +72,24 @@
                         </tr>
                         <td>
                           <button type="button" class="btn btn-success btn-lg"
+                            @click="accept(request.id)">
+                            Принять
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-lg btn-danger"
+                            @click="reject(request.id)">
+                            Отклонить
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-lg btn-primary"
+                            @click="close(request.id)">
+                            Закрыть
+                          </button>
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-success btn-lg"
                                   @click="take(request.id)">
                             Подробнее
                           </button>
@@ -159,7 +177,75 @@
             .catch(error => {
               console.error(error);
             });
-      }
+      },
+      accept(requestId) {
+        const token = localStorage.getItem('token');
+        axios.post('http://localhost:8400/trip/' + requestId, {
+            status: 'Принята',
+            description: 'Ваша заявка была принята'
+          }, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+          }).then(response => {
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              window.location.reload();
+            }
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
+        );
+      },
+      reject(requestId) {
+        const token = localStorage.getItem('token')
+
+        axios.post('http://localhost:8400/trip/' + requestId, {
+          status: 'Отклонена',
+          description: 'Простите, но в данный момент мы не можем предоставить денежные средства для осуществления командировки'
+        }, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response => {
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+                window.location.reload();
+            }
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
+        )
+      }, 
+      close(requestId) {
+        const token = localStorage.getItem('token')
+        
+        axios.post('http://localhost:8400/trip/' + requestId, {
+          status: 'Закрыта',
+          description: 'Заявка на командировку была закрыта'
+        }, {
+          headers: {
+            'Accept': 'application/json',
+            'Authorization': `Bearer ${token}`
+          }
+        }).then(response => {
+            if (response.data.message) {
+              this.error = response.data.message; // Заменяем текущий массив сообщений новым сообщением
+            } else {
+              window.location.reload();
+            }
+          }).catch(error => {
+            // Обработка ошибок
+            console.error(error);
+          }
+        )
+      },
     }
   }
   </script>
